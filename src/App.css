@@ -12454,3 +12454,63 @@ body:has(.ob-screen) .orb {
 .sponsored-cta i {
   font-size: 9px;
 }
+
+/* =========================================================
+   SWIPE — MODE TOGGLE (Swipe / Hookups)
+   ========================================================= */
+.swipe-mode-toggle {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px 20px 4px;
+}
+
+.smt-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  padding: 8px 18px;
+  border-radius: 999px;
+  background: #f4f4f8;
+  color: #63637a;
+  border: none;
+  font-size: 13.5px;
+  font-weight: 700;
+  font-family: inherit;
+  cursor: pointer;
+  transition: all 0.2s ease;
+  letter-spacing: -0.2px;
+}
+
+.smt-btn i {
+  font-size: 12px;
+}
+
+.smt-btn:hover {
+  background: #ebebf0;
+}
+
+.smt-btn.active {
+  background: linear-gradient(135deg, #ff3b81, #8b5cf6);
+  color: #fff;
+  box-shadow: 0 6px 18px rgba(255, 59, 129, 0.3);
+}
+
+.smt-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: rgba(255, 255, 255, 0.25);
+  font-size: 10.5px;
+  font-weight: 800;
+  margin-left: 2px;
+}
+
+.smt-btn.active .smt-badge {
+  background: rgba(255, 255, 255, 0.3);
+  color: #fff;
+}

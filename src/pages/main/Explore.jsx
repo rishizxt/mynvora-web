@@ -15,7 +15,7 @@ import { useUserStore } from '../../store/userStore.js';
 
 export default function Explore() {
   const navigate = useNavigate();
-  const { tier } = useUserStore();
+    const tier = useUserStore((s) => s.tier);
 
   const [counts, setCounts] = useState(null);
   const [loading, setLoading] = useState(true);
@@ -38,8 +38,9 @@ export default function Explore() {
     }
   };
 
-  useEffect(() => {
+     useEffect(() => {
     load();
+    /* eslint-disable-next-line */
   }, []);
 
   return (

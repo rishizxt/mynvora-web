@@ -1,19 +1,20 @@
 // =========================================================
 // MYNVORA — CATEGORY GROUP
-// Filtered swipe deck. Same strict tap detection.
+// Real backend discovery. Special handling for Hookups.
 // =========================================================
 
-import { useState, useRef } from 'react';
+import { useState, useRef, useEffect } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
-import { PROFILES } from '../../data/profiles.js';
 import ProfileCard from '../../components/ProfileCard.jsx';
 import BottomNav from '../../components/BottomNav.jsx';
 import LimitReachedModal from '../../components/LimitReachedModal.jsx';
 import HookupUpgradeModal from '../../components/HookupUpgradeModal.jsx';
+import MatchModal from '../../components/MatchModal.jsx';
 import { getCategoryById } from '../../data/categories.js';
 import { useSwipeLimit } from '../../features/swipe/useSwipeLimit.js';
 import { useHookupLimit } from '../../features/swipe/useHookupLimit.js';
 import { useUserStore } from '../../store/userStore.js';
+import api from '../../lib/api.js';
 
 const TAP_THRESHOLD = 5;
 const SWIPE_THRESHOLD = 110;
@@ -25,95 +26,139 @@ export default function CategoryGroup() {
   const category = getCategoryById(categoryId);
   const isHookups = categoryId === 'hookups';
 
-  const { verified } = useUserStore();
+  const { verified, tier, fetchMe } = useUserStore();
+  const { isOut: swipeOut, consume: consumeSwipe, count, limit, isUnlimited } = useSwipeLimit();
+
+  /* Hookups hook — real backend */
   const {
-    isOut: swipeOut,
-    consume: consumeSwipe,
-    count,
-    limit,
-    isUnlimited
-  } = useSwipeLimit();
-  const {
-    isDiamond,
-    isUnlimited: hookupsUnlimited,
-    isOut: hookupsOut,
-    remaining: hookupsRemaining,
-    freeLimit: hookupsFreeLimit,
-    consume: consumeHookup
+    canAccess:  canHookups,
+    canSwipe:   canHookupSwipe,
+    hasUnlimited: hookupUnlimited,
+    used:       hookupUsed,
+    limit:      hookupLimit,
+    remaining:  hookupRemaining,
+    consume:    consumeHookup,
   } = useHookupLimit();
 
+  /* ── Deck from backend ───────────────────────────── */
+  const [deck, setDeck] = useState([]);
+  const [loading, setLoading] = useState(true);
   const [idx, setIdx] = useState(0);
+
   const [drag, setDrag] = useState({
-    x: 0,
-    y: 0,
-    active: false,
-    startX: 0,
-    startY: 0
+    x: 0, y: 0, active: false, startX: 0, startY: 0,
   });
   const [animating, setAnimating] = useState(null);
   const [showLimit, setShowLimit] = useState(false);
   const [showHookupUpgrade, setShowHookupUpgrade] = useState(false);
+  const [matchProfile, setMatchProfile] = useState(null);
 
   const maxMoveRef = useRef(0);
-  const filtered = filterByCategory(PROFILES, categoryId);
-  const profile = filtered[idx];
+  const profile = deck[idx];
 
-  const doSwipe = (dir) => {
-    if (animating) return;
+  /* ── Fetch deck ──────────────────────────────────── */
+  useEffect(() => {
+    let cancelled = false;
+    (async () => {
+      setLoading(true);
+      try {
+        await fetchMe().catch(() => null);
 
-    if (isHookups) {
-      if (!isDiamond) {
-        navigate('/subscription');
-        return;
+        /* Hookups mode → only Diamond users */
+        const url = isHookups
+          ? '/profile/discover?mode=hookups'
+          : `/profile/discover?category=${categoryId}`;
+
+        const { data } = await api.get(url);
+        if (cancelled) return;
+        const users = data.users || [];
+        setDeck(users.map(normalizeUser));
+        setIdx(0);
+      } catch (err) {
+        console.warn('Discover failed:', err.message);
+        if (!cancelled) setDeck([]);
+      } finally {
+        if (!cancelled) setLoading(false);
       }
-
-      if (hookupsOut) {
-        setShowHookupUpgrade(true);
-        return;
-      }
-
-      setAnimating(dir);
-      consumeHookup();
-      if (dir === 'right') burstHearts();
-      advance();
-      return;
-    }
-
-    if (swipeOut) {
-      setShowLimit(true);
-      return;
-    }
-
-    setAnimating(dir);
-    consumeSwipe();
-    if (dir === 'right') burstHearts();
-    advance();
-  };
+    })();
+    return () => { cancelled = true; };
+  }, [categoryId, isHookups, fetchMe]);
 
   const advance = () => {
     setTimeout(() => {
-      setIdx((i) => (i + 1) % filtered.length);
+      setIdx((i) => i + 1);
       setAnimating(null);
       setDrag({ x: 0, y: 0, active: false, startX: 0, startY: 0 });
       maxMoveRef.current = 0;
     }, 420);
   };
 
+  const sendSwipeToBackend = async (targetPublicId, type) => {
+    try {
+      const { data } = await api.post('/match/swipe', {
+        targetPublicId,
+        type,
+      });
+      if (data.matched && data.match) {
+        const matched = deck[idx];
+        setTimeout(() => setMatchProfile(matched), 500);
+      }
+    } catch (err) {
+      console.warn('Swipe failed:', err.response?.data || err.message);
+    }
+  };
+
+  const doSwipe = (dir) => {
+    if (animating) return;
+
+    /* ── Hookups path ── */
+    if (isHookups) {
+      if (!canHookups) {
+        navigate('/subscription');
+        return;
+      }
+      if (!canHookupSwipe) {
+        setShowHookupUpgrade(true);
+        return;
+      }
+
+      setAnimating(dir);
+      consumeHookup().catch((err) => {
+        console.warn('Hookup consume failed:', err?.response?.data || err.message);
+        setShowHookupUpgrade(true);
+      });
+
+      const current = deck[idx];
+      const type = dir === 'right' ? 'like' : 'pass';
+      if (current?.public_id) sendSwipeToBackend(current.public_id, type);
+
+      if (dir === 'right') burstHearts();
+      advance();
+      return;
+    }
+
+    /* ── Regular swipe path ── */
+    if (swipeOut) { setShowLimit(true); return; }
+
+    setAnimating(dir);
+    consumeSwipe();
+
+    const current = deck[idx];
+    const type = dir === 'right' ? 'like' : dir === 'up' ? 'super_like' : 'pass';
+    if (current?.public_id) sendSwipeToBackend(current.public_id, type);
+
+    if (dir === 'right') burstHearts();
+    advance();
+  };
+
   const openDetail = () => {
-    if (!profile) return;
-    navigate(`/profile/${profile.id}`);
+    if (profile) navigate(`/profile/${profile.public_id || profile.id}`);
   };
 
   const onDown = (e) => {
     const p = e.touches ? e.touches[0] : e;
     maxMoveRef.current = 0;
-    setDrag({
-      x: 0,
-      y: 0,
-      active: true,
-      startX: p.clientX,
-      startY: p.clientY
-    });
+    setDrag({ x: 0, y: 0, active: true, startX: p.clientX, startY: p.clientY });
   };
 
   const onMove = (e) => {
@@ -121,31 +166,24 @@ export default function CategoryGroup() {
     const p = e.touches ? e.touches[0] : e;
     const dx = p.clientX - drag.startX;
     const dy = p.clientY - drag.startY;
-
     const dist = Math.sqrt(dx * dx + dy * dy);
     if (dist > maxMoveRef.current) maxMoveRef.current = dist;
-
     setDrag((d) => ({ ...d, x: dx, y: dy }));
   };
 
   const onUp = () => {
     if (!drag.active) return;
-
     const moved = maxMoveRef.current;
-
     if (moved < TAP_THRESHOLD) {
       setDrag({ x: 0, y: 0, active: false, startX: 0, startY: 0 });
       maxMoveRef.current = 0;
       openDetail();
       return;
     }
-
     if (drag.x > SWIPE_THRESHOLD) doSwipe('right');
     else if (drag.x < -SWIPE_THRESHOLD) doSwipe('left');
-    else if (drag.y < -SUPER_THRESHOLD && Math.abs(drag.x) < 80)
-      doSwipe('up');
+    else if (drag.y < -SUPER_THRESHOLD && Math.abs(drag.x) < 80) doSwipe('up');
     else setDrag({ x: 0, y: 0, active: false, startX: 0, startY: 0 });
-
     maxMoveRef.current = 0;
   };
 
@@ -158,33 +196,52 @@ export default function CategoryGroup() {
             ? 'translateX(-150%) rotate(-22deg)'
             : 'translateY(-150%) scale(0.9)',
         opacity: 0,
-        transition:
-          'transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.42s'
+        transition: 'transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.42s',
       }
     : {
         transform: `translate(${drag.x}px, ${drag.y}px) rotate(${drag.x / 22}deg)`,
-        transition: drag.active
-          ? 'none'
-          : 'transform 0.3s cubic-bezier(0.22,1,0.36,1)'
+        transition: drag.active ? 'none' : 'transform 0.3s cubic-bezier(0.22,1,0.36,1)',
       };
 
+  /* ── Counter in top bar ──────────────────────────── */
   const counterLabel = (() => {
     if (isHookups) {
-      if (hookupsUnlimited) return '∞';
-      return `${hookupsFreeLimit - hookupsRemaining}/${hookupsFreeLimit}`;
+      if (!canHookups) return null;
+      if (hookupUnlimited) return '∞';
+      return `${hookupUsed}/${hookupLimit}`;
     }
     if (isUnlimited) return '∞';
     return `${count}/${limit}`;
   })();
 
+  /* ── Loading state ───────────────────────────────── */
+  if (loading) {
+    return (
+      <div className="swipe-screen">
+        <div className="swipe-top">
+          <button className="back-btn-inline" onClick={() => navigate('/explore')}>
+            <i className="fa-solid fa-arrow-left" />
+          </button>
+          <div className="group-title">
+            <span>{category?.icon}</span> {category?.name}
+          </div>
+          <div style={{ width: 44 }} />
+        </div>
+        <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', height: '60vh', color: '#9e9eb3' }}>
+          <i className="fa-solid fa-spinner fa-spin" style={{ fontSize: 24, marginRight: 10 }} />
+          Loading…
+        </div>
+        <BottomNav />
+      </div>
+    );
+  }
+
+  /* ── Empty state ─────────────────────────────────── */
   if (!profile) {
     return (
       <div className="swipe-screen">
         <div className="swipe-top">
-          <button
-            className="back-btn-inline"
-            onClick={() => navigate('/explore')}
-          >
+          <button className="back-btn-inline" onClick={() => navigate('/explore')}>
             <i className="fa-solid fa-arrow-left" />
           </button>
           <div className="group-title">
@@ -194,23 +251,24 @@ export default function CategoryGroup() {
         </div>
 
         <div className="empty">
-          <div className="empty-icon">{category?.icon}</div>
+          <div className="empty-icon">{category?.icon || '🔍'}</div>
           <p>No one here yet</p>
-          <span>Be the first to join {category?.name}</span>
+          <span>
+            {isHookups
+              ? 'Hookups only shows Diamond users. Buy Diamond to join the pool.'
+              : `Be the first to join ${category?.name || 'this category'}`}
+          </span>
         </div>
-
         <BottomNav />
       </div>
     );
   }
 
+  /* ── Main render ─────────────────────────────────── */
   return (
     <div className="swipe-screen">
       <div className="swipe-top">
-        <button
-          className="back-btn-inline"
-          onClick={() => navigate('/explore')}
-        >
+        <button className="back-btn-inline" onClick={() => navigate('/explore')}>
           <i className="fa-solid fa-arrow-left" />
         </button>
 
@@ -242,9 +300,7 @@ export default function CategoryGroup() {
       <div className="swipe-actions">
         <button
           className="sa-btn sa-rewind"
-          onClick={() =>
-            setIdx((i) => (i - 1 + filtered.length) % filtered.length)
-          }
+          onClick={() => setIdx((i) => Math.max(0, i - 1))}
         >
           <i className="fa-solid fa-rotate-left" />
         </button>
@@ -274,25 +330,36 @@ export default function CategoryGroup() {
         open={showHookupUpgrade}
         onClose={() => setShowHookupUpgrade(false)}
       />
+
+      <MatchModal
+        open={!!matchProfile}
+        profile={matchProfile}
+        onClose={() => setMatchProfile(null)}
+      />
     </div>
   );
 }
 
-function filterByCategory(all, categoryId) {
-  const shuffled = [...all].sort(
-    (a, b) => hash(a.id + categoryId) - hash(b.id + categoryId)
-  );
-  const size = 3 + (hash(categoryId) % 4);
-  return shuffled.slice(0, size);
-}
-
-function hash(str) {
-  let h = 0;
-  for (let i = 0; i < str.length; i++) {
-    h = (h << 5) - h + str.charCodeAt(i);
-    h |= 0;
-  }
-  return Math.abs(h);
+/* ── Normalize backend user → ProfileCard shape ──── */
+function normalizeUser(u) {
+  const photos = u.main_photo ? [u.main_photo] : [];
+  return {
+    id: u.id,
+    public_id: u.public_id,
+    name: u.first_name || 'Someone',
+    age: u.age,
+    verified: u.verified,
+    online: false,
+    distance: u.city ? `Near ${u.city}` : 'Nearby',
+    job: u.job || '',
+    city: u.city || '',
+    country: u.country || '',
+    bio: u.bio || '',
+    photos,
+    interests: [],
+    prompt: null,
+    hasPhoto: photos.length > 0,
+  };
 }
 
 function burstHearts() {

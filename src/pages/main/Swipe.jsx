@@ -1,5 +1,7 @@
 // =========================================================
-// MYNVORA — SWIPE (real data only, no fallback photos)
+// MYNVORA — SWIPE
+// Two modes: regular Swipe + Hookups (Diamond only).
+// Hookups: 10 free swipes, then ₹99 for unlimited.
 // =========================================================
 
 import { useState, useRef, useEffect } from 'react';
@@ -10,8 +12,10 @@ import LimitReachedModal from '../../components/LimitReachedModal.jsx';
 import StarUpgradeModal from '../../components/StarUpgradeModal.jsx';
 import SuperLikeToast from '../../components/SuperLikeToast.jsx';
 import MatchModal from '../../components/MatchModal.jsx';
+import HookupUpgradeModal from '../../components/HookupUpgradeModal.jsx';
 import { useSwipeLimit } from '../../features/swipe/useSwipeLimit.js';
 import { useStarLimit } from '../../features/swipe/useStarLimit.js';
+import { useHookupLimit } from '../../features/swipe/useHookupLimit.js';
 import { useUserStore } from '../../store/userStore.js';
 import api from '../../lib/api.js';
 
@@ -25,9 +29,23 @@ export default function Swipe() {
   const { isOut, consume, count, limit, isUnlimited } = useSwipeLimit();
   const { sendSuperLike, isOut: starsOut } = useStarLimit();
 
+  /* ── Hookups ──────────────────────────────────────── */
+  const {
+    canAccess:  canHookups,
+    canSwipe:   canHookupSwipe,
+    hasUnlimited: hookupUnlimited,
+    used:       hookupUsed,
+    limit:      hookupLimit,
+    remaining:  hookupRemaining,
+    consume:    consumeHookup,
+  } = useHookupLimit();
+
+  /* ── State ────────────────────────────────────────── */
   const [deck, setDeck] = useState([]);
   const [loading, setLoading] = useState(true);
   const [idx, setIdx] = useState(0);
+
+  const [mode, setMode] = useState('swipe'); // 'swipe' | 'hookups'
 
   const [drag, setDrag] = useState({
     x: 0, y: 0, active: false, startX: 0, startY: 0
@@ -35,13 +53,14 @@ export default function Swipe() {
   const [animating, setAnimating] = useState(null);
   const [showLimit, setShowLimit] = useState(false);
   const [showStarUpgrade, setShowStarUpgrade] = useState(false);
+  const [showHookupUpgrade, setShowHookupUpgrade] = useState(false);
   const [toast, setToast] = useState({ open: false, name: '' });
   const [matchProfile, setMatchProfile] = useState(null);
 
   const maxMoveRef = useRef(0);
   const profile = deck[idx];
 
-  // Load discover deck
+  /* ── Load discover deck ───────────────────────────── */
   useEffect(() => {
     let cancelled = false;
     (async () => {
@@ -60,6 +79,11 @@ export default function Swipe() {
     })();
     return () => { cancelled = true; };
   }, []);
+
+  /* ── Auto-switch off hookups if user loses Diamond ── */
+  useEffect(() => {
+    if (mode === 'hookups' && !canHookups) setMode('swipe');
+  }, [canHookups, mode]);
 
   const advance = () => {
     setTimeout(() => {
@@ -85,13 +109,32 @@ export default function Swipe() {
     }
   };
 
+  /* ── Regular swipe ────────────────────────────────── */
   const doSwipe = (dir) => {
     if (animating) return;
-    if (isOut) { setShowLimit(true); return; }
+
+    /* Hookup mode checks */
+    if (mode === 'hookups') {
+      if (!canHookups || !canHookupSwipe) {
+        setShowHookupUpgrade(true);
+        return;
+      }
+    } else {
+      if (isOut) { setShowLimit(true); return; }
+    }
 
     const current = deck[idx];
     setAnimating(dir);
-    consume();
+
+    /* Consume the right counter */
+    if (mode === 'hookups') {
+      consumeHookup().catch((err) => {
+        console.warn('Hookup consume failed:', err?.response?.data || err.message);
+        setShowHookupUpgrade(true);
+      });
+    } else {
+      consume();
+    }
 
     const type = dir === 'right' ? 'like' : 'pass';
     if (current?.public_id) {
@@ -102,8 +145,15 @@ export default function Swipe() {
     advance();
   };
 
+  /* ── Super like (disabled in hookup mode) ─────────── */
   const doSuperLike = () => {
     if (animating) return;
+
+    if (mode === 'hookups') {
+      // Super likes not available in hookups
+      return;
+    }
+
     if (starsOut) { setShowStarUpgrade(true); return; }
     if (isOut) { setShowLimit(true); return; }
 
@@ -125,6 +175,7 @@ export default function Swipe() {
     if (profile) navigate(`/profile/${profile.public_id || profile.id}`);
   };
 
+  /* ── Drag handlers ────────────────────────────────── */
   const onDown = (e) => {
     const p = e.touches ? e.touches[0] : e;
     maxMoveRef.current = 0;
@@ -173,16 +224,48 @@ export default function Swipe() {
         transition: drag.active ? 'none' : 'transform 0.3s cubic-bezier(0.22,1,0.36,1)'
       };
 
+  /* ── Counter shown in top bar ─────────────────────── */
+  const counterText = (() => {
+    if (mode === 'hookups') {
+      if (!canHookups) return null;
+      if (hookupUnlimited) return '∞';
+      return `${hookupUsed}/${hookupLimit}`;
+    }
+    if (isUnlimited) return null;
+    return `${count}/${limit}`;
+  })();
+
   return (
     <div className="swipe-screen">
       <div className="swipe-top">
         <div className="st-logo"><i className="fa-solid fa-fire" /> MYNVORA</div>
-        <div className="st-icons">
-          {!isUnlimited && <span className="st-counter">{count}/{limit}</span>}
-          <i className="fa-solid fa-sliders" />
-          <i className="fa-solid fa-bell" />
+               <div className="st-icons">
+          {counterText && <span className="st-counter">{counterText}</span>}
         </div>
       </div>
+
+      {/* ── Mode toggle (only if Diamond) ─────────────── */}
+      {canHookups && (
+        <div className="swipe-mode-toggle">
+          <button
+            type="button"
+            className={`smt-btn ${mode === 'swipe' ? 'active' : ''}`}
+            onClick={() => setMode('swipe')}
+          >
+            <i className="fa-solid fa-heart" /> Swipe
+          </button>
+          <button
+            type="button"
+            className={`smt-btn ${mode === 'hookups' ? 'active' : ''}`}
+            onClick={() => setMode('hookups')}
+          >
+            <i className="fa-solid fa-fire" /> Hookups
+            {!hookupUnlimited && hookupRemaining > 0 && (
+              <span className="smt-badge">{hookupRemaining}</span>
+            )}
+          </button>
+        </div>
+      )}
 
       <div className="swipe-stage">
         <div className="card-hint h2" />
@@ -238,7 +321,12 @@ export default function Swipe() {
         <button className="sa-btn sa-nope" onClick={() => doSwipe('left')}>
           <i className="fa-solid fa-xmark" />
         </button>
-        <button className="sa-btn sa-super" onClick={doSuperLike}>
+        <button
+          className="sa-btn sa-super"
+          onClick={doSuperLike}
+          disabled={mode === 'hookups'}
+          style={mode === 'hookups' ? { opacity: 0.4, cursor: 'not-allowed' } : {}}
+        >
           <i className="fa-solid fa-star" />
         </button>
         <button className="sa-btn sa-like" onClick={() => doSwipe('right')}>
@@ -257,6 +345,10 @@ export default function Swipe() {
         open={showStarUpgrade}
         onClose={() => setShowStarUpgrade(false)}
       />
+      <HookupUpgradeModal
+        open={showHookupUpgrade}
+        onClose={() => setShowHookupUpgrade(false)}
+      />
       <SuperLikeToast
         open={toast.open}
         name={toast.name}
@@ -271,8 +363,7 @@ export default function Swipe() {
   );
 }
 
-// ---------- Normalize backend user → ProfileCard shape ----------
-// NO fake photos. If user has no photo, photos[] is empty.
+/* ── Normalize backend user → ProfileCard shape ──────── */
 function normalizeUser(u) {
   const photos = u.main_photo ? [u.main_photo] : [];
   return {

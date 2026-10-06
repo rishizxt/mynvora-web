@@ -1,5 +1,7 @@
 // =========================================================
-// MYNVORA — LIKES (who liked you — Light tier required)
+// MYNVORA — LIKES (who liked you)
+// Light, Gold, Diamond → can see who liked them.
+// Refreshes tier from backend on mount.
 // =========================================================
 
 import { useState, useEffect } from 'react';
@@ -11,23 +13,26 @@ import api from '../../lib/api.js';
 
 export default function Likes() {
   const navigate = useNavigate();
-  const { tier, verified } = useUserStore();
+    const tier = useUserStore((s) => s.tier);
 
   const [likes, setLikes] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState('');
   const [filter, setFilter] = useState('recent');
 
-  // Light, Gold, Diamond unlock "who liked you"
+  /* Light, Gold, Diamond unlock "who liked you" */
   const canSeeLikes =
     tier === 'light' || tier === 'gold' || tier === 'diamond';
 
+  /* ── Refresh tier on mount, then load likes ─────── */
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
       setError('');
       try {
+        
+
         const { data } = await api.get('/match/likes');
         if (cancelled) return;
         setLikes(data.likes || []);
@@ -39,7 +44,7 @@ export default function Likes() {
       }
     })();
     return () => { cancelled = true; };
-  }, []);
+   }, []);
 
   const handleOpenProfile = (publicId) => {
     if (!canSeeLikes) {
@@ -48,6 +53,13 @@ export default function Likes() {
     }
     navigate(`/profile/${publicId}`);
   };
+
+  /* ── Message for paywall — matches current tier ─── */
+  const paywallMessage = (() => {
+    if (tier === 'free')  return 'Upgrade to Light — ₹99/week';
+    if (tier === 'light') return 'Upgrade to Gold — ₹199/week';
+    return 'Upgrade your plan';
+  })();
 
   return (
     <div className="likes-screen">
@@ -68,7 +80,9 @@ export default function Likes() {
         <p>
           {canSeeLikes
             ? `${likes.length} ${likes.length === 1 ? 'person' : 'people'} liked you`
-            : 'Someone liked you — unlock to see who'}
+            : likes.length > 0
+            ? 'Someone liked you — unlock to see who'
+            : 'When someone likes you, they show up here'}
         </p>
       </div>
 
@@ -152,13 +166,9 @@ export default function Likes() {
                 }}
               >
                 {like.verified && canSeeLikes && (
-                  <span
-                    className="online-dot"
-                    style={{ background: '#4f8cff' }}
-                  />
+                  <span className="online-dot" style={{ background: '#4f8cff' }} />
                 )}
 
-                {/* Locked overlay */}
                 {!canSeeLikes && (
                   <div
                     style={{
@@ -173,17 +183,11 @@ export default function Likes() {
                       zIndex: 3,
                     }}
                   >
-                    <i
-                      className="fa-solid fa-lock"
-                      style={{ fontSize: 28, marginBottom: 8 }}
-                    />
-                    <span style={{ fontSize: 12, fontWeight: 700 }}>
-                      Unlock to see
-                    </span>
+                    <i className="fa-solid fa-lock" style={{ fontSize: 28, marginBottom: 8 }} />
+                    <span style={{ fontSize: 12, fontWeight: 700 }}>Unlock to see</span>
                   </div>
                 )}
 
-                {/* Info overlay */}
                 <div className="like-overlay">
                   {canSeeLikes ? (
                     <>
@@ -191,9 +195,7 @@ export default function Likes() {
                         {like.first_name || 'Someone'}
                         {like.age ? `, ${like.age}` : ''}
                       </div>
-                      <div className="like-note">
-                        {like.city || 'Nearby'}
-                      </div>
+                      <div className="like-note">{like.city || 'Nearby'}</div>
                     </>
                   ) : (
                     <>
@@ -204,14 +206,12 @@ export default function Likes() {
                 </div>
               </div>
 
-              {/* Quick actions (only when unlocked) */}
               {canSeeLikes && (
                 <div className="like-actions">
                   <button
                     className="mini-btn mini-nope"
                     onClick={(e) => {
                       e.stopPropagation();
-                      // Skip action — TODO: send pass via API
                       setLikes(likes.filter((l) => l.swipe_id !== like.swipe_id));
                     }}
                     aria-label="Pass"
@@ -235,7 +235,7 @@ export default function Likes() {
         </div>
       )}
 
-      {/* Paywall card */}
+      {/* Paywall — only when likes exist AND user can't see */}
       {!canSeeLikes && likes.length > 0 && (
         <div
           onClick={() => navigate(ROUTES.SUBSCRIPTION)}
@@ -250,15 +250,12 @@ export default function Likes() {
             boxShadow: '0 12px 32px rgba(255,59,129,0.35)',
           }}
         >
-          <i
-            className="fa-solid fa-crown"
-            style={{ fontSize: 28, marginBottom: 8 }}
-          />
+          <i className="fa-solid fa-crown" style={{ fontSize: 28, marginBottom: 8 }} />
           <h3 style={{ fontSize: 18, fontWeight: 800, margin: '6px 0' }}>
             See who liked you
           </h3>
           <p style={{ fontSize: 13, opacity: 0.92, marginBottom: 14 }}>
-            Upgrade to Light — ₹99/week
+            {paywallMessage}
           </p>
           <div
             style={{
