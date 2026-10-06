@@ -1,0 +1,44 @@
+{
+  "name": "Mynvora — Where hearts find their rhythm",
+  "short_name": "Mynvora",
+  "description": "Meet verified people nearby. Real vibes, real connections.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#ffffff",
+  "theme_color": "#ff3b81",
+  "categories": ["social", "lifestyle", "dating"],
+  "lang": "en",
+  "dir": "ltr",
+  "icons": [
+    {
+      "src": "/apple-touch-icon.png",
+      "sizes": "180x180",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "/favicon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Discover",
+      "short_name": "Swipe",
+      "description": "Start swiping profiles",
+      "url": "/discover",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    },
+    {
+      "name": "Chat",
+      "short_name": "Chat",
+      "description": "Open your chats",
+      "url": "/chat",
+      "icons": [{ "src": "/favicon.svg", "sizes": "any", "type": "image/svg+xml" }]
+    }
+  ]
+}

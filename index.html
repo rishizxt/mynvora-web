@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta
+      name="viewport"
+      content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover"
+    />
+    <meta name="theme-color" content="#ff3b81" />
+    <meta name="description" content="Mynvora — Where hearts find their rhythm. Meet verified people nearby." />
+    <meta name="author" content="Mynvora" />
+
+    <!-- PWA -->
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="Mynvora" />
+    <meta name="mobile-web-app-capable" content="yes" />
+
+    <!-- Open Graph (social share) -->
+    <meta property="og:type" content="website" />
+    <meta property="og:title" content="Mynvora — Where hearts find their rhythm" />
+    <meta property="og:description" content="Meet verified people nearby. Real vibes, real connections." />
+    <meta property="og:image" content="/og-image.png" />
+    <meta property="og:site_name" content="Mynvora" />
+
+    <!-- Twitter -->
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content="Mynvora" />
+    <meta name="twitter:description" content="Where hearts find their rhythm." />
+    <meta name="twitter:image" content="/og-image.png" />
+
+    <title>Mynvora — Where hearts find their rhythm</title>
+
+    <!-- Favicon -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="mask-icon" href="/favicon.svg" color="#ff3b81" />
+
+    <!-- PWA manifest -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Fonts: Inter -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap"
+      rel="stylesheet"
+    />
+
+    <!-- Icons: Font Awesome -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css"
+    />
+
+    <!-- Inline splash (shown before React mounts) -->
+    <style>
+      html, body {
+        margin: 0;
+        padding: 0;
+        background: #ffffff;
+        font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+        overscroll-behavior: none;
+      }
+
+      #root { min-height: 100vh; }
+
+      /* Pre-React splash */
+      #boot-splash {
+        position: fixed;
+        inset: 0;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: center;
+        background: linear-gradient(160deg, #fff5f8 0%, #fdf5ff 50%, #f0f5ff 100%);
+        z-index: 9999;
+        transition: opacity 0.4s ease;
+      }
+
+      #boot-splash.hide { opacity: 0; pointer-events: none; }
+
+      .boot-logo {
+        width: 72px;
+        height: 72px;
+        border-radius: 22px;
+        background: linear-gradient(135deg, #ff3b81, #8b5cf6);
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 30px;
+        color: #fff;
+        margin-bottom: 20px;
+        box-shadow: 0 20px 40px rgba(255, 59, 129, 0.3);
+        animation: bootPulse 1.6s ease-in-out infinite;
+      }
+
+      .boot-name {
+        font-size: 22px;
+        font-weight: 900;
+        letter-spacing: -1.2px;
+        background: linear-gradient(90deg, #ff3b81, #8b5cf6);
+        -webkit-background-clip: text;
+        background-clip: text;
+        color: transparent;
+      }
+
+      @keyframes bootPulse {
+        0%, 100% { transform: scale(1); }
+        50%      { transform: scale(1.08); }
+      }
+
+      /* Prevent flash of unstyled content */
+      body { opacity: 1; }
+    </style>
+  </head>
+  <body>
+        <!-- Boot splash — auto-hides when React mounts, or after 2s fallback -->
+    <div id="boot-splash">
+      <div class="boot-logo">❤</div>
+      <div class="boot-name">MYNVORA</div>
+    </div>
+
+    <div id="root"></div>
+
+    <!-- Fallback: hide splash even if React fails -->
+    <script>
+      setTimeout(function () {
+        var splash = document.getElementById('boot-splash');
+        if (splash) splash.classList.add('hide');
+      }, 2000);
+    </script>
+
+    <script type="module" src="/src/main.jsx"></script>
+  </body>
+</html>
