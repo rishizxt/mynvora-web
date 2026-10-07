@@ -3,11 +3,14 @@
 // Clean sequence: Email / Phone → divider → Google / Apple
 // =========================================================
 
+import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { ROUTES } from '../../navigation/routes.js';
+import GoogleButton from '../../components/GoogleButton.jsx';
 
 export default function SignupOptions() {
   const navigate = useNavigate();
+  const [error, setError] = useState('');
 
   return (
     <div className="auth-page">
@@ -69,24 +72,23 @@ export default function SignupOptions() {
 
         {/* ===================== SOCIAL ===================== */}
         <div className="signup-socials">
-          <button
-            type="button"
-            className="signup-social"
-            onClick={() => alert('Google login (demo)')}
-          >
-            <i className="fa-brands fa-google" style={{ color: '#ea4335' }} />
-            Google
-          </button>
+          <GoogleButton onError={(msg) => setError(msg)} />
 
           <button
             type="button"
             className="signup-social"
-            onClick={() => alert('Apple login (demo)')}
+            onClick={() => alert('Apple login coming soon')}
           >
             <i className="fa-brands fa-apple" style={{ color: '#000' }} />
             Apple
           </button>
         </div>
+
+        {error && (
+          <div className="input-error" style={{ marginTop: 8 }}>
+            <i className="fa-solid fa-circle-xmark" /> {error}
+          </div>
+        )}
 
         {/* ===================== SWITCH ===================== */}
         <p className="auth-switch">

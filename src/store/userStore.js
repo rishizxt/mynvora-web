@@ -45,7 +45,7 @@ function normalizeUser(u) {
   if (u.firstName !== undefined || u.first_name !== undefined) out.name = u.firstName || u.first_name;
   if (u.birthday !== undefined || u.dob !== undefined) out.dob = u.birthday || u.dob;
   if (u.verified !== undefined) out.verified = u.verified;
-  /* ⚠️ NEVER set tier here — tier comes only from fetchMe subscription call */
+  /* NEVER set tier here — tier comes only from fetchMe subscription call */
   if (u.ageGroup !== undefined || u.age_group !== undefined) out.ageGroup = u.ageGroup || u.age_group;
   if (u.onboardingComplete !== undefined || u.onboarding_complete !== undefined) out.onboardingComplete = u.onboardingComplete || u.onboarding_complete;
   return out;
@@ -85,6 +85,19 @@ export const useUserStore = create((set, get) => ({
     return data;
   },
 
+  googleLogin: async ({ idToken }) => {
+    const { data } = await api.post('/auth/google', { idToken });
+    if (data.accessToken && data.refreshToken) {
+      tokens.set(data);
+      const user = normalizeUser(data.user);
+      const next = { ...get(), ...user };
+      saveUser(next);
+      set(user);
+      setTimeout(() => connectSocket(), 100);
+    }
+    return data;
+  },
+
   logout: async () => {
     try {
       if (tokens.refresh) await api.post('/auth/logout', { refreshToken: tokens.refresh });
@@ -95,7 +108,7 @@ export const useUserStore = create((set, get) => ({
     set(DEFAULT_USER);
   },
 
-  /* ── fetchMe — the ONLY place that sets tier ─────────── */
+  /* fetchMe — the ONLY place that sets tier */
   fetchMe: async () => {
     console.log('[fetchMe] start. current tier:', get().tier);
     const current = get();

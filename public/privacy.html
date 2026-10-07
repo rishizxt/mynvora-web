@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mynvora — Privacy Policy</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+       background: #0a0a12; color: #e6e6f0; line-height: 1.65; overflow-x: hidden; }
+.app-banner { position: sticky; top: 0; z-index: 100; background: #14141f;
+              border-bottom: 1px solid rgba(255,255,255,0.06);
+              padding: 10px 20px; display: flex; align-items: center;
+              justify-content: space-between; gap: 12px; }
+.app-banner-text { color: #b7b7c7; font-size: 13px; font-weight: 500;
+                   display: flex; align-items: center; gap: 8px; }
+.app-banner-btn { background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                  color: #fff; padding: 7px 18px; border-radius: 999px;
+                  font-size: 12px; font-weight: 700; text-decoration: none; }
+.hero { position: relative; padding: 72px 24px 56px; text-align: center;
+        background: #0a0a12; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0;
+                background-image: radial-gradient(circle at 50% 0%, rgba(255,45,120,0.18) 0%, transparent 55%),
+                                  radial-gradient(circle at 20% 40%, rgba(155,61,255,0.12) 0%, transparent 50%),
+                                  radial-gradient(circle at 80% 40%, rgba(255,110,199,0.10) 0%, transparent 50%);
+                pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-brand { font-size: 34px; font-weight: 900; letter-spacing: 8px;
+              background: linear-gradient(135deg, #ff2d78 0%, #ff6ec7 50%, #9b3dff 100%);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px; display: inline-block; }
+.hero-brand-sub { display: block; font-size: 11px; font-weight: 600;
+                  letter-spacing: 6px; text-transform: uppercase;
+                  color: #6b6b80; margin-bottom: 40px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: #fff;
+           letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+.hero p { font-size: 16px; color: #a8a8be; max-width: 620px;
+          margin: 0 auto; line-height: 1.7; }
+.wrap { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+.section-head { font-size: 12px; font-weight: 700; letter-spacing: 4px;
+                text-transform: uppercase; color: #6b6b80; margin: 48px 0 20px; }
+h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 12px;
+     letter-spacing: -0.3px; }
+h3 { font-size: 18px; font-weight: 700; color: #fff; margin: 24px 0 10px; }
+p, li { font-size: 15px; color: #b7b7c7; }
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+a { color: #ff5a8c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+        background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; font-size: 14px;
+         border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+th { background: rgba(110,168,255,0.08); color: #fff; font-weight: 600;
+     font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+td:first-child { color: #fff; font-weight: 500; }
+.rule { display: flex; gap: 20px; padding: 26px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05); }
+.rule:last-of-type { border-bottom: none; }
+.rule-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(155,61,255,0.12));
+            border: 1px solid rgba(255,45,120,0.22); display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; color: #ff5a8c; }
+.rule-body h3 { font-size: 19px; font-weight: 800; color: #fff;
+                margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-body ul { list-style: none; padding: 0; margin-top: 8px; }
+.rule-body ul li { position: relative; padding-left: 18px;
+                   font-size: 14px; color: #a8a8be; margin-bottom: 5px; }
+.rule-body ul li::before { content: ''; position: absolute; left: 0; top: 9px;
+                           width: 6px; height: 6px; border-radius: 50%;
+                           background: #ff2d78; }
+.india-badge { display: inline-flex; align-items: center; gap: 5px;
+               background: rgba(255,153,51,0.12);
+               border: 1px solid rgba(255,153,51,0.3);
+               color: #ff9933; padding: 2px 9px; border-radius: 999px;
+               font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+               text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.callout { background: rgba(110,168,255,0.06);
+           border-left: 3px solid #6ea8ff; padding: 14px 18px;
+           margin: 20px 0; border-radius: 6px; }
+.callout.warn { background: rgba(255,80,80,0.06); border-left-color: #ff7a7a; }
+.callout p { margin: 0; font-size: 14px; }
+.impact { background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 28px; margin-top: 40px; }
+.impact h3 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+               gap: 12px; margin-top: 16px; }
+.stage { background: rgba(255,255,255,0.03);
+         border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+               color: #ff5a8c; font-weight: 700; margin-bottom: 5px; }
+.stage p { font-size: 12.5px; color: #a8a8be; margin: 0; }
+.download-block { margin-top: 72px;
+                  background: linear-gradient(135deg, #1a0a20 0%, #0f0a1f 100%);
+                  border-top: 1px solid rgba(255,255,255,0.06);
+                  padding: 60px 24px 70px; position: relative; overflow: hidden; }
+.download-block::before { content: ''; position: absolute; right: -80px; bottom: -80px;
+                          width: 380px; height: 380px;
+                          background: radial-gradient(circle, rgba(255,45,120,0.25) 0%, transparent 70%);
+                          border-radius: 50%; pointer-events: none; }
+.download-inner { max-width: 840px; margin: 0 auto; display: flex;
+                  align-items: center; justify-content: space-between;
+                  gap: 32px; position: relative; z-index: 1; flex-wrap: wrap; }
+.download-text h3 { font-size: 36px; font-weight: 900; color: #fff;
+                    letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.15; }
+.download-text p { font-size: 15px; color: #a8a8be; margin-bottom: 22px; }
+.download-btn { display: inline-flex; align-items: center; gap: 10px;
+                background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                color: #fff; padding: 14px 30px; border-radius: 999px;
+                text-decoration: none; font-weight: 800; font-size: 14px;
+                box-shadow: 0 10px 40px rgba(255,45,120,0.35); }
+.download-mark { font-size: 74px; font-weight: 900; letter-spacing: 10px;
+                 background: linear-gradient(135deg, #ff2d78 0%, #9b3dff 100%);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; text-align: center; flex-shrink: 0;
+                 line-height: 1; opacity: 0.9; }
+.footer { text-align: center; padding: 40px 24px; background: #0a0a12;
+          color: #6b6b80; font-size: 13px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.socials a { width: 42px; height: 42px; border-radius: 50%;
+             background: rgba(255,255,255,0.05); display: flex;
+             align-items: center; justify-content: center;
+             color: #b7b7c7; text-decoration: none; font-size: 16px;
+             transition: all 0.2s; }
+.socials a:hover { background: linear-gradient(135deg, #ff2d78, #9b3dff); color: #fff; }
+.footer-links { margin-bottom: 14px; }
+.footer-links a { color: #8b8b9e; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.footer-links a:hover { color: #ff5a8c; }
+.footer-copy { color: #4d4d5c; font-size: 12px; margin-top: 18px; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 30px; } .hero-brand { font-size: 26px; letter-spacing: 6px; }
+  .download-text h3 { font-size: 26px; }
+  .download-mark { font-size: 48px; letter-spacing: 6px; }
+  .download-inner { flex-direction: column; text-align: center; }
+  th, td { font-size: 13px; padding: 10px 12px; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-banner">
+  <div class="app-banner-text"><i class="fa-solid fa-mobile-screen"></i><span>Your data, your rules. Get the app.</span></div>
+  <a href="#download" class="app-banner-btn">Get Mynvora</a>
+</div>
+
+<div class="hero"><div class="hero-inner">
+  <div class="hero-brand">MYNVORA</div>
+  <span class="hero-brand-sub">Privacy Policy</span>
+  <h1>We don't sell your data. Ever.</h1>
+  <p>Here's exactly what we collect, why we collect it, and how to get rid of it. Plain language, not legalese.</p>
+</div></div>
+
+<div class="wrap">
+
+  <p style="font-size:15px;margin-bottom:20px">Mynvora ("we", "us", "our") operates the Mynvora mobile application and website (the "Service"). This Privacy Policy explains what personal data we collect, how we use it, who we share it with, and the rights you have over it.</p>
+  <p>We wrote this policy to match the transparency standards set by leading platforms in our category. If anything is unclear, contact us at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+
+  <h2>1. Who we are</h2>
+  <p>Mynvora is a dating and social discovery platform for verified people aged 16 and over. For the purposes of the EU/UK General Data Protection Regulation ("GDPR") and India's Digital Personal Data Protection Act, 2023 ("DPDP Act"), Mynvora is the <strong>data controller</strong> (or "Data Fiduciary" under the DPDP Act) of personal data processed through the Service.</p>
+  <p><strong>Contact:</strong> <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></p>
+
+  <h2>2. Data we collect</h2>
+  <p>We collect personal data in three ways: (a) you provide it directly, (b) it is collected automatically when you use the Service, and (c) it comes from third parties (such as Google if you sign in with Google).</p>
+
+  <h3>Categories of personal data</h3>
+  <table>
+    <thead><tr><th>Category</th><th>Description</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Account Data</td>
+        <td>Email address, phone number, date of birth, hashed password, authentication tokens, account status, and — if you sign in with Google — your Google account identifier, verified email, and profile name. We never receive your Google password.</td>
+      </tr>
+      <tr>
+        <td>Profile Data</td>
+        <td>First name, age, gender, sexual orientation, pronouns, height, job, education, city and country, bio, interests, lifestyle answers (drinking, smoking, pets, zodiac, languages), and profile prompts. You choose what to display and to whom.</td>
+      </tr>
+      <tr>
+        <td>Content</td>
+        <td>Photos you upload, messages you send through our chat, and any text or media you add to your profile. Photos are stored on Cloudinary and moderated by Sightengine.</td>
+      </tr>
+      <tr>
+        <td>Purchase Data</td>
+        <td>Subscription tier (Light, Gold, Diamond), transaction IDs, amounts paid, currency, and payment status. Full card details are handled by Razorpay — we never see or store them.</td>
+      </tr>
+      <tr>
+        <td>Usage Data</td>
+        <td>Swipes (likes, passes, super-likes), matches, conversations, sessions, notification interactions, feature clicks, and in-app time.</td>
+      </tr>
+      <tr>
+        <td>Technical Data</td>
+        <td>Device model, operating system and version, app version, browser type, IP address, mobile network, crash logs, and diagnostic data.</td>
+      </tr>
+      <tr>
+        <td>Geolocation Data</td>
+        <td>Approximate location (latitude and longitude) derived from your device GPS with your permission. We round coordinates before display — your exact location is never shown to other users.</td>
+      </tr>
+      <tr>
+        <td>Face Data</td>
+        <td>If you complete selfie verification, we process a selfie image and a numeric "face geometry" template generated by our verification provider to confirm you are the person in your profile photos. Face geometry is biometric data in some jurisdictions and is treated as a <strong>special category of personal data</strong>. You can use Mynvora without selfie verification, but you will not receive the verified badge.</td>
+      </tr>
+      <tr>
+        <td>ID Data</td>
+        <td>We do not currently collect government ID. If we introduce ID verification in the future, we will update this policy before collecting any such data.</td>
+      </tr>
+      <tr>
+        <td>Marketing, Survey and Research Data</td>
+        <td>Your responses to in-app surveys, feedback forms, and preference settings for marketing communications.</td>
+      </tr>
+      <tr>
+        <td>Third Party Data</td>
+        <td>Information from third parties you connect to Mynvora — e.g., your Google profile name and picture if you sign in with Google. We do not purchase data about you from data brokers.</td>
+      </tr>
+      <tr>
+        <td>Customer Support Data</td>
+        <td>Messages you send to our support team, reports you submit, and screenshots or attachments you provide.</td>
+      </tr>
+      <tr>
+        <td>Social Media Data</td>
+        <td>If you connect a social media account (currently limited to Google Sign-In), we receive the basic profile information Google shares with us: your Google ID, email, name, and profile picture.</td>
+      </tr>
+      <tr>
+        <td>Insights and Inferences</td>
+        <td>Derived data such as your likely language preference, activity level on the app, and match-affinity signals. These are used to order your discovery feed and are never sold.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>3. Special category data <span class="india-badge">DPDP Act 2023</span></h2>
+  <div class="callout">
+    <p><strong>Face geometry and sexual orientation</strong> are considered special categories of personal data under GDPR and India's DPDP Act. We process them only with your explicit consent, given when you:</p>
+    <ul style="margin:10px 0 0 0">
+      <li>Complete selfie verification (face geometry), or</li>
+      <li>Choose to add your sexual orientation to your profile.</li>
+    </ul>
+    <p style="margin-top:10px">You may withdraw consent at any time by removing the relevant feature from your profile or by contacting <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+  </div>
+
+  <h2>4. Why and how we use your data</h2>
+  <p>We process your personal data for the purposes described below. For each purpose, we identify the legal basis (or "ground") we rely on under GDPR. Where we rely on legitimate interests, we have balanced those interests against your rights and freedoms.</p>
+
+  <h3>Purposes, legal grounds and data categories</h3>
+  <table>
+    <thead>
+      <tr><th>Purpose</th><th>Legal ground</th><th>Data categories</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>To create and maintain your account and profile</td>
+        <td>Performance of our contract with you</td>
+        <td>Account Data, Profile Data, Technical Data</td>
+      </tr>
+      <tr>
+        <td>To recommend other members to you and you to them, including through the discovery feed, categories, and match suggestions</td>
+        <td>Performance of our contract; legitimate interest in operating the Service</td>
+        <td>Profile Data, Usage Data, Geolocation Data, Insights and Inferences</td>
+      </tr>
+      <tr>
+        <td>To enable chat, matches, and mutual connections</td>
+        <td>Performance of our contract</td>
+        <td>Account Data, Profile Data, Content, Usage Data</td>
+      </tr>
+      <tr>
+        <td>To verify your identity through selfie verification and to display a verified badge</td>
+        <td>Your explicit consent (special category data); legitimate interest in protecting members from impersonation</td>
+        <td>Face Data, Content, Account Data</td>
+      </tr>
+      <tr>
+        <td>To moderate photos and messages for nudity, harassment, and illegal content</td>
+        <td>Legitimate interest in keeping the community safe; compliance with legal obligations</td>
+        <td>Content, Face Data (if flagged), Usage Data</td>
+      </tr>
+      <tr>
+        <td>To process purchases and subscriptions</td>
+        <td>Performance of our contract; legal obligation (financial records)</td>
+        <td>Account Data, Purchase Data, Technical Data</td>
+      </tr>
+      <tr>
+        <td>To show sponsored ad cards from our partners</td>
+        <td>Legitimate interest in funding the free tier; consent where required</td>
+        <td>Profile Data, Usage Data, Insights and Inferences</td>
+      </tr>
+      <tr>
+        <td>To send service notifications (new match, new message, verification result) and marketing communications</td>
+        <td>Performance of our contract (service notifications); consent or legitimate interest (marketing)</td>
+        <td>Account Data, Usage Data, Technical Data</td>
+      </tr>
+      <tr>
+        <td>To run surveys, focus groups, and product research</td>
+        <td>Consent; legitimate interest in improving the Service</td>
+        <td>Marketing, Survey and Research Data, Insights and Inferences</td>
+      </tr>
+      <tr>
+        <td>To detect, prevent, and fight fraud, abuse, and violations of our Terms</td>
+        <td>Legitimate interest; compliance with legal obligations; protection of vital interests</td>
+        <td>Account Data, Usage Data, Technical Data, Content, Face Data</td>
+      </tr>
+      <tr>
+        <td>To respond to your support requests and reports</td>
+        <td>Performance of our contract; legitimate interest in operating a safe Service</td>
+        <td>Customer Support Data, Account Data, Usage Data</td>
+      </tr>
+      <tr>
+        <td>To comply with legal obligations (tax, court orders, lawful requests)</td>
+        <td>Compliance with legal obligations</td>
+        <td>As required by the specific obligation</td>
+      </tr>
+      <tr>
+        <td>To improve the Service, develop new features, and fix bugs</td>
+        <td>Legitimate interest in maintaining and improving a viable product</td>
+        <td>Usage Data, Technical Data, Insights and Inferences</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>5. How we share data</h2>
+  <p>We do not sell your personal data. We share it only in the situations described below.</p>
+  <table>
+    <thead>
+      <tr><th>Recipient</th><th>Reason for sharing</th><th>Data categories</th></tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td>Other Mynvora members</td>
+        <td>Your profile, photos, bio, interests, first name, age, and — where you have opted in — city and orientation are visible to other members. Messages are visible only to your matches. If someone reports you, we may tell the reporter what action was taken.</td>
+        <td>Profile Data, Content, Usage Data</td>
+      </tr>
+      <tr>
+        <td>Cloudinary</td>
+        <td>Photo storage, delivery, and transformation. Bound by a data processing agreement.</td>
+        <td>Content</td>
+      </tr>
+      <tr>
+        <td>Sightengine</td>
+        <td>Automated moderation of photos for nudity, violence, and prohibited content.</td>
+        <td>Content</td>
+      </tr>
+      <tr>
+        <td>Razorpay</td>
+        <td>Payment processing for subscriptions and add-ons. Razorpay is PCI-DSS compliant and handles card data directly.</td>
+        <td>Account Data, Purchase Data</td>
+      </tr>
+      <tr>
+        <td>Google</td>
+        <td>Only if you choose "Sign in with Google" — Google confirms your identity and shares your basic profile with us.</td>
+        <td>Account Data, Social Media Data</td>
+      </tr>
+      <tr>
+        <td>Cloud hosting (Render, Neon, Vercel)</td>
+        <td>Hosting our backend, database, and web application. All data at rest is encrypted.</td>
+        <td>All categories</td>
+      </tr>
+      <tr>
+        <td>Ad partners</td>
+        <td>Aggregated, non-identifying metrics about sponsored card impressions and clicks. We do not share your email, phone, or precise location with advertisers.</td>
+        <td>Insights and Inferences</td>
+      </tr>
+      <tr>
+        <td>Law enforcement / regulators</td>
+        <td>Only in response to valid legal process (court order, subpoena, or equivalent), or where we believe in good faith it is necessary to prevent imminent harm. This includes cooperation with Indian cybercrime authorities and compliance with Section 79 of the IT Act, 2000.</td>
+        <td>As required by the specific request</td>
+      </tr>
+      <tr>
+        <td>Successors in a merger or acquisition</td>
+        <td>If Mynvora is acquired or merges with another company, personal data may transfer as part of the transaction. You will be notified before any such transfer.</td>
+        <td>All categories</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>6. Automated decision-making and profiling</h2>
+  <p>Mynvora uses automated systems to:</p>
+  <ul>
+    <li><strong>Order your discovery feed</strong> — based on your filters, activity, and location.</li>
+    <li><strong>Moderate content</strong> — flag photos that may violate our Terms.</li>
+    <li><strong>Detect fraud and abuse</strong> — rate-limit spam accounts and suspicious login patterns.</li>
+  </ul>
+  <p>You have the right to request human review of any automated decision that significantly affects you (such as an account suspension). Contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+
+  <h2>7. Cookies and tracking</h2>
+  <p>The Mynvora web app uses the following storage mechanisms:</p>
+  <ul>
+    <li><strong>Essential storage</strong> — authentication tokens, session data. Cannot be disabled.</li>
+    <li><strong>Preference storage</strong> — your discovery filters, notification preferences, onboarding state. Stored locally on your device.</li>
+    <li><strong>Analytics (web only)</strong> — aggregate page views and error logs. You can opt out in Settings → Privacy.</li>
+  </ul>
+  <p>The Mynvora mobile app does not use tracking cookies or SDKs from third-party advertising networks. For full details, see our <a href="/cookie-policy.html">Cookie Policy</a>.</p>
+
+  <h2>8. Data retention</h2>
+  <p>We retain personal data only as long as necessary for the purpose it was collected:</p>
+  <ul>
+    <li><strong>Active accounts:</strong> retained while your account is open.</li>
+    <li><strong>Deleted accounts:</strong> profile, photos, messages, matches, and swipes are anonymized or deleted immediately. Transaction records are retained for <strong>7 years</strong> in anonymized form to comply with tax and financial law.</li>
+    <li><strong>Session logs:</strong> up to 12 months.</li>
+    <li><strong>Support requests:</strong> up to 3 years.</li>
+    <li><strong>Moderation records:</strong> up to 5 years (to detect repeat offenders).</li>
+  </ul>
+
+  <h2>9. Security</h2>
+  <p>We take the security of your data seriously:</p>
+  <ul>
+    <li>All traffic is encrypted with HTTPS/TLS 1.2+.</li>
+    <li>Passwords are hashed with bcrypt (12 rounds).</li>
+    <li>Refresh tokens are hashed and stored server-side.</li>
+    <li>Database access is restricted to a limited set of service credentials.</li>
+    <li>Photos are served over signed CDN URLs.</li>
+    <li>We conduct periodic audits of access and admin actions.</li>
+  </ul>
+  <p>No system is perfectly secure. Please use a strong password and enable device lock. If you suspect your account has been compromised, contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a> immediately.</p>
+
+  <h2>10. Your rights</h2>
+  <p>Depending on where you live, you may have some or all of the rights listed below. We honour these rights for all Mynvora users globally, regardless of jurisdiction.</p>
+
+  <table>
+    <thead><tr><th>Right</th><th>How to exercise it</th></tr></thead>
+    <tbody>
+      <tr>
+        <td>Access, Portability, or To Know</td>
+        <td>View your data in the app, or request a copy at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>. We respond within 30 days.</td>
+      </tr>
+      <tr>
+        <td>Rectification or Correction</td>
+        <td>Edit your profile directly in the app. For other data, contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</td>
+      </tr>
+      <tr>
+        <td>Deletion or Erasure</td>
+        <td>Delete your account in-app at <em>Settings → Delete Account</em>, or via <a href="/account-deletion.html">mynvora.app/account-deletion</a>.</td>
+      </tr>
+      <tr>
+        <td>Objection (Opt-out) or Restriction</td>
+        <td>Opt out of marketing and analytics in Settings. To restrict other processing, contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</td>
+      </tr>
+      <tr>
+        <td>Withdraw Consent</td>
+        <td>Where processing is based on consent (face verification, marketing), you may withdraw at any time. Withdrawing consent for face verification removes your verified badge but does not delete your account.</td>
+      </tr>
+      <tr>
+        <td>Nomination <span class="india-badge">DPDP 2023</span></td>
+        <td>Indian users may nominate another person to exercise their data rights on their behalf in the event of death or incapacity. Contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</td>
+      </tr>
+      <tr>
+        <td>Non-Discrimination</td>
+        <td>We will not discriminate against you for exercising your rights.</td>
+      </tr>
+      <tr>
+        <td>Lodge a Complaint</td>
+        <td>You may lodge a complaint with your local data protection authority. For users in the EU/UK, you can find your authority at <a href="https://edpb.europa.eu/about-edpb/about-edpb/members_en" target="_blank">edpb.europa.eu</a>. Indian users may file a grievance with our DPO or appeal to the Data Protection Board of India.</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>11. International transfers</h2>
+  <p>Mynvora's servers are located in the United States and Europe, provided by Render, Neon, Cloudinary, and Vercel. If you access the Service from outside these regions, your data will be transferred to and processed in them.</p>
+  <p>For transfers from the EU/UK, we rely on <strong>Standard Contractual Clauses</strong> approved by the European Commission, plus additional technical and organisational measures.</p>
+  <p>For transfers of personal data from India, we comply with the DPDP Act, 2023 and any rules made thereunder, ensuring an adequate level of protection.</p>
+
+  <h2>12. Children and age limits</h2>
+  <p>Mynvora is intended for users aged <strong>16 and over</strong>. Users aged 16–17 have restricted features and cannot interact with accounts marked 18+.</p>
+  <p>We do not knowingly collect personal data from anyone under 16. If we learn that a user is under 16, we will remove the account and delete associated data. If you believe a minor is using Mynvora, please report it to <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+  <p>Under India's DPDP Act, 2023, processing the personal data of children requires verifiable parental consent. Mynvora does not direct any part of the Service to children under 16.</p>
+
+  <h2>13. Changes to this policy</h2>
+  <p>We may update this Privacy Policy from time to time. When we make material changes, we will notify you in-app and by email at least 14 days before they take effect. The "Last updated" date at the top of this page reflects the most recent version.</p>
+  <p>Continued use of the Service after the effective date means you accept the updated policy.</p>
+
+  <h2>14. Grievance and contact</h2>
+  <p>For any question, request, or complaint about this Privacy Policy:</p>
+  <table>
+    <tbody>
+      <tr><td><strong>General privacy questions</strong></td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td></tr>
+      <tr><td><strong>Grievance Officer (India)</strong></td><td><a href="/grievance.html">See grievance page</a></td></tr>
+      <tr><td><strong>Data Protection Officer</strong></td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td></tr>
+    </tbody>
+  </table>
+  <p>We respond to all privacy requests within 30 days.</p>
+
+</div>
+
+<div class="download-block" id="download">
+  <div class="download-inner">
+    <div class="download-text">
+      <h3>Looking for the app?</h3>
+      <p>Get Mynvora on Android. iOS coming soon.</p>
+      <a href="#" class="download-btn"><i class="fa-brands fa-google-play"></i> Download Mynvora</a>
+    </div>
+    <div class="download-mark">MYNVORA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="socials">
+    <a href="https://instagram.com/mynvora" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://twitter.com/mynvora" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/mynvora" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://youtube.com/@mynvora" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:mynvora@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/cookie-policy.html">Cookies</a>
+    <a href="/community-guidelines.html">Guidelines</a>
+    <a href="/safety-tips.html">Safety</a>
+    <a href="/account-deletion.html">Delete Account</a>
+    <a href="/grievance.html">Grievance</a>
+  </div>
+  <div class="footer-copy">© 2026 Mynvora. All rights reserved.</div>
+</div>
+
+</body>
+</html>

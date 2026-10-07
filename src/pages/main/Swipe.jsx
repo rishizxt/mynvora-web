@@ -1,10 +1,11 @@
 // =========================================================
 // MYNVORA — SWIPE
 // Two modes: regular Swipe + Hookups (Diamond only).
-// Hookups: 10 free swipes, then ₹99 for unlimited.
+// Top bar: filter + notification bell with badge.
+// Real filters from filtersStore are sent on every fetch.
 // =========================================================
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import ProfileCard from '../../components/ProfileCard.jsx';
 import BottomNav from '../../components/BottomNav.jsx';
@@ -16,7 +17,9 @@ import HookupUpgradeModal from '../../components/HookupUpgradeModal.jsx';
 import { useSwipeLimit } from '../../features/swipe/useSwipeLimit.js';
 import { useStarLimit } from '../../features/swipe/useStarLimit.js';
 import { useHookupLimit } from '../../features/swipe/useHookupLimit.js';
+import { useNotificationCount } from '../../features/notifications/useNotificationCount.js';
 import { useUserStore } from '../../store/userStore.js';
+import { useFiltersStore } from '../../store/filtersStore.js';
 import api from '../../lib/api.js';
 
 const TAP_THRESHOLD = 5;
@@ -31,14 +34,31 @@ export default function Swipe() {
 
   /* ── Hookups ──────────────────────────────────────── */
   const {
-    canAccess:  canHookups,
-    canSwipe:   canHookupSwipe,
+    canAccess:    canHookups,
+    canSwipe:     canHookupSwipe,
     hasUnlimited: hookupUnlimited,
-    used:       hookupUsed,
-    limit:      hookupLimit,
-    remaining:  hookupRemaining,
-    consume:    consumeHookup,
+    used:         hookupUsed,
+    limit:        hookupLimit,
+    remaining:    hookupRemaining,
+    consume:      consumeHookup,
   } = useHookupLimit();
+
+  /* ── Filters (real, from filtersStore) ────────────── */
+  const ageMin       = useFiltersStore((s) => s.ageMin);
+  const ageMax       = useFiltersStore((s) => s.ageMax);
+  const maxDistance  = useFiltersStore((s) => s.maxDistance);
+  const verifiedOnly = useFiltersStore((s) => s.verifiedOnly);
+  const gender       = useFiltersStore((s) => s.gender);
+
+  const filterQuery = useMemo(() => {
+    const p = new URLSearchParams();
+    p.set('minAge', String(ageMin));
+    p.set('maxAge', String(ageMax));
+    p.set('maxDistance', String(maxDistance));
+    p.set('verified', String(verifiedOnly));
+    if (gender && gender !== 'all') p.set('gender', gender);
+    return p.toString();
+  }, [ageMin, ageMax, maxDistance, verifiedOnly, gender]);
 
   /* ── State ────────────────────────────────────────── */
   const [deck, setDeck] = useState([]);
@@ -48,7 +68,7 @@ export default function Swipe() {
   const [mode, setMode] = useState('swipe'); // 'swipe' | 'hookups'
 
   const [drag, setDrag] = useState({
-    x: 0, y: 0, active: false, startX: 0, startY: 0
+    x: 0, y: 0, active: false, startX: 0, startY: 0,
   });
   const [animating, setAnimating] = useState(null);
   const [showLimit, setShowLimit] = useState(false);
@@ -60,16 +80,21 @@ export default function Swipe() {
   const maxMoveRef = useRef(0);
   const profile = deck[idx];
 
-  /* ── Load discover deck ───────────────────────────── */
+  /* ── Load discover deck (refetches on filter/mode change) ── */
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
       try {
-        const { data } = await api.get('/profile/discover');
+        const url = mode === 'hookups'
+          ? `/profile/discover?mode=hookups&${filterQuery}`
+          : `/profile/discover?${filterQuery}`;
+
+        const { data } = await api.get(url);
         if (cancelled) return;
         const users = data.users || [];
         setDeck(users.map(normalizeUser));
+        setIdx(0);
       } catch (err) {
         console.warn('Discover failed:', err.message);
         if (!cancelled) setDeck([]);
@@ -78,9 +103,9 @@ export default function Swipe() {
       }
     })();
     return () => { cancelled = true; };
-  }, []);
+  }, [filterQuery, mode]);
 
-  /* ── Auto-switch off hookups if user loses Diamond ── */
+  /* ── Auto-switch off hookups if lost Diamond ──────── */
   useEffect(() => {
     if (mode === 'hookups' && !canHookups) setMode('swipe');
   }, [canHookups, mode]);
@@ -96,10 +121,7 @@ export default function Swipe() {
 
   const sendSwipeToBackend = async (targetPublicId, type) => {
     try {
-      const { data } = await api.post('/match/swipe', {
-        targetPublicId,
-        type
-      });
+      const { data } = await api.post('/match/swipe', { targetPublicId, type });
       if (data.matched && data.match) {
         const matchedProfile = deck[idx];
         setTimeout(() => setMatchProfile(matchedProfile), 500);
@@ -109,16 +131,13 @@ export default function Swipe() {
     }
   };
 
-  /* ── Regular swipe ────────────────────────────────── */
   const doSwipe = (dir) => {
     if (animating) return;
 
-    /* Hookup mode checks */
+    /* ── Hookups checks ── */
     if (mode === 'hookups') {
-      if (!canHookups || !canHookupSwipe) {
-        setShowHookupUpgrade(true);
-        return;
-      }
+      if (!canHookups) { setShowHookupUpgrade(true); return; }
+      if (!canHookupSwipe) { setShowHookupUpgrade(true); return; }
     } else {
       if (isOut) { setShowLimit(true); return; }
     }
@@ -126,7 +145,6 @@ export default function Swipe() {
     const current = deck[idx];
     setAnimating(dir);
 
-    /* Consume the right counter */
     if (mode === 'hookups') {
       consumeHookup().catch((err) => {
         console.warn('Hookup consume failed:', err?.response?.data || err.message);
@@ -137,23 +155,15 @@ export default function Swipe() {
     }
 
     const type = dir === 'right' ? 'like' : 'pass';
-    if (current?.public_id) {
-      sendSwipeToBackend(current.public_id, type);
-    }
+    if (current?.public_id) sendSwipeToBackend(current.public_id, type);
 
     if (dir === 'right') burstHearts();
     advance();
   };
 
-  /* ── Super like (disabled in hookup mode) ─────────── */
   const doSuperLike = () => {
     if (animating) return;
-
-    if (mode === 'hookups') {
-      // Super likes not available in hookups
-      return;
-    }
-
+    if (mode === 'hookups') return;
     if (starsOut) { setShowStarUpgrade(true); return; }
     if (isOut) { setShowLimit(true); return; }
 
@@ -165,9 +175,7 @@ export default function Swipe() {
     setAnimating('up');
     consume();
 
-    if (current?.public_id) {
-      sendSwipeToBackend(current.public_id, 'super_like');
-    }
+    if (current?.public_id) sendSwipeToBackend(current.public_id, 'super_like');
     advance();
   };
 
@@ -217,14 +225,13 @@ export default function Swipe() {
             ? 'translateX(-150%) rotate(-22deg)'
             : 'translateY(-150%) scale(0.9)',
         opacity: 0,
-        transition: 'transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.42s'
+        transition: 'transform 0.42s cubic-bezier(0.22,1,0.36,1), opacity 0.42s',
       }
     : {
         transform: `translate(${drag.x}px, ${drag.y}px) rotate(${drag.x / 22}deg)`,
-        transition: drag.active ? 'none' : 'transform 0.3s cubic-bezier(0.22,1,0.36,1)'
+        transition: drag.active ? 'none' : 'transform 0.3s cubic-bezier(0.22,1,0.36,1)',
       };
 
-  /* ── Counter shown in top bar ─────────────────────── */
   const counterText = (() => {
     if (mode === 'hookups') {
       if (!canHookups) return null;
@@ -237,14 +244,37 @@ export default function Swipe() {
 
   return (
     <div className="swipe-screen">
+      {/* ── Top bar ──────────────────────────────────── */}
       <div className="swipe-top">
-        <div className="st-logo"><i className="fa-solid fa-fire" /> MYNVORA</div>
-               <div className="st-icons">
+        <div className="st-logo">
+          <i className="fa-solid fa-fire" /> MYNVORA
+        </div>
+
+        <div className="st-icons">
           {counterText && <span className="st-counter">{counterText}</span>}
+
+          <button
+            type="button"
+            className="st-icon-btn"
+            onClick={() => navigate('/settings/discovery')}
+            aria-label="Filters"
+          >
+            <i className="fa-solid fa-sliders" />
+          </button>
+
+          <button
+            type="button"
+            className="st-icon-btn"
+            onClick={() => navigate('/notifications')}
+            aria-label="Notifications"
+          >
+            <i className="fa-solid fa-bell" />
+            <NotificationBadge />
+          </button>
         </div>
       </div>
 
-      {/* ── Mode toggle (only if Diamond) ─────────────── */}
+      {/* ── Mode toggle (Diamond only) ───────────────── */}
       {canHookups && (
         <div className="swipe-mode-toggle">
           <button
@@ -267,6 +297,7 @@ export default function Swipe() {
         </div>
       )}
 
+      {/* ── Card stage ───────────────────────────────── */}
       <div className="swipe-stage">
         <div className="card-hint h2" />
         <div className="card-hint h1" />
@@ -274,7 +305,7 @@ export default function Swipe() {
         {loading && (
           <div style={{
             display: 'flex', alignItems: 'center', justifyContent: 'center',
-            height: '100%', color: '#9e9eb3', fontSize: 14
+            height: '100%', color: '#9e9eb3', fontSize: 14,
           }}>
             <i className="fa-solid fa-spinner fa-spin" style={{ marginRight: 10 }} />
             Loading profiles…
@@ -285,13 +316,13 @@ export default function Swipe() {
           <div style={{
             display: 'flex', flexDirection: 'column', alignItems: 'center',
             justifyContent: 'center', height: '100%', color: '#9e9eb3',
-            textAlign: 'center', padding: 20
+            textAlign: 'center', padding: 20,
           }}>
             <i className="fa-solid fa-face-smile" style={{ fontSize: 40, marginBottom: 12, opacity: 0.4 }} />
             <div style={{ fontSize: 15, fontWeight: 600, color: '#63637a', marginBottom: 4 }}>
               You've seen everyone
             </div>
-            <div style={{ fontSize: 13 }}>Check back later for new profiles</div>
+            <div style={{ fontSize: 13 }}>Try widening your filters or check back later</div>
           </div>
         )}
 
@@ -311,6 +342,7 @@ export default function Swipe() {
         )}
       </div>
 
+      {/* ── Action buttons ───────────────────────────── */}
       <div className="swipe-actions">
         <button
           className="sa-btn sa-rewind"
@@ -363,7 +395,18 @@ export default function Swipe() {
   );
 }
 
-/* ── Normalize backend user → ProfileCard shape ──────── */
+/* ── Notification badge (bell icon) ────────────────── */
+function NotificationBadge() {
+  const count = useNotificationCount();
+  if (!count) return null;
+  return (
+    <span className="st-notif-badge">
+      {count > 9 ? '9+' : count}
+    </span>
+  );
+}
+
+/* ── Normalize backend user → ProfileCard shape ──── */
 function normalizeUser(u) {
   const photos = u.main_photo ? [u.main_photo] : [];
   return {
@@ -373,6 +416,7 @@ function normalizeUser(u) {
     age: u.age,
     verified: u.verified,
     online: false,
+    distanceKm: u.distance_km != null ? Number(u.distance_km) : null,
     distance: u.city ? `Near ${u.city}` : 'Nearby',
     job: u.job || '',
     city: u.city || '',
@@ -385,6 +429,7 @@ function normalizeUser(u) {
   };
 }
 
+/* ── Heart burst animation ─────────────────────────── */
 function burstHearts() {
   const cx = window.innerWidth / 2;
   const cy = window.innerHeight / 2 + 100;

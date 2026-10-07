@@ -1,9 +1,10 @@
 // =========================================================
 // MYNVORA — PROFILE CARD
-// Visible text, strong gradient overlay, attractive layout.
+// Real distance display + "Nearby" pill for < 5 km
 // =========================================================
 
 import { useState } from 'react';
+import { formatDistance } from '../lib/location.js';
 
 export default function ProfileCard({
   profile,
@@ -34,6 +35,12 @@ export default function ProfileCard({
     drag.y < -60 && Math.abs(drag.x) < 60
       ? Math.max(0, Math.min(1, -drag.y / 120))
       : 0;
+
+  /* ── distance ─────────────────────────────────────── */
+  const km = profile.distanceKm;
+  const distanceText =
+    km != null ? formatDistance(km) : (profile.distance || 'Nearby');
+  const isNearby = km != null && km < 5;
 
   return (
     <div
@@ -122,6 +129,13 @@ export default function ProfileCard({
 
       {/* Bottom info */}
       <div className="pc-info">
+        {/* Nearby pill */}
+        {isNearby && (
+          <div className="pc-nearby-pill">
+            <i className="fa-solid fa-location-dot" /> Nearby
+          </div>
+        )}
+
         {/* Name row */}
         <div className="pc-name-row">
           <span className="pc-name">{profile.name}</span>
@@ -132,14 +146,16 @@ export default function ProfileCard({
         </div>
 
         {/* Meta rows */}
-        <div className="pc-meta">
-          <i className="fa-solid fa-briefcase" />
-          <span>{profile.job}</span>
-        </div>
+        {profile.job && (
+          <div className="pc-meta">
+            <i className="fa-solid fa-briefcase" />
+            <span>{profile.job}</span>
+          </div>
+        )}
 
         <div className="pc-meta">
           <i className="fa-solid fa-location-dot" />
-          <span>{profile.distance}</span>
+          <span>{distanceText}</span>
         </div>
 
         {/* Interest tags */}

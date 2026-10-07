@@ -1,56 +1,46 @@
 // =========================================================
 // MYNVORA — PAYMENT API (user app)
-// Supports subscriptions AND add-ons (stars, boost, hookups).
+// QR-first Razorpay checkout: Scan QR · UPI apps · Cards
 // =========================================================
 import api from './api.js';
 
-/* ── fetch plan catalog ───────────────────────────────── */
 export async function fetchPlans() {
   const { data } = await api.get('/payment/plans');
   return data.plans || [];
 }
 
-/* ── current subscription ─────────────────────────────── */
 export async function fetchSubscription() {
   const { data } = await api.get('/payment/subscription');
   return data.subscription;
 }
 
-/* ── payment history ──────────────────────────────────── */
 export async function fetchHistory(limit = 20) {
   const { data } = await api.get('/payment/history', { params: { limit } });
   return data.history || [];
 }
 
-/* ── create order ─────────────────────────────────────── */
-/* payload = { tier: 'gold' }  OR  { addonId: 'stars_14' } */
 export async function createOrder(payload) {
   const { data } = await api.post('/payment/create-order', payload);
   return data;
 }
 
-/* ── verify payment ───────────────────────────────────── */
 export async function verifyPayment(payload) {
   const { data } = await api.post('/payment/verify', payload);
   return data;
 }
-/* ── HOOKUPS status ───────────────────────────────────── */
+
 export async function fetchHookupStatus() {
   const { data } = await api.get('/payment/hookups/status');
   return data;
 }
 
-/* ── HOOKUPS — record one swipe ───────────────────────── */
 export async function recordHookupSwipe() {
   const { data } = await api.post('/payment/hookups/swipe');
   return data;
 }
 
 /* ═══════════════════════════════════════════════════════
-   MAIN CHECKOUT FLOW
-   Accepts:
-     startCheckout({ tier: 'gold' })
-     startCheckout({ addonId: 'stars_14' })
+   MAIN CHECKOUT — QR-first Razorpay
    ═══════════════════════════════════════════════════════ */
 export async function startCheckout(payload) {
   if (typeof window === 'undefined' || !window.Razorpay) {
@@ -75,11 +65,47 @@ export async function startCheckout(payload) {
         ? `${order.itemName} subscription — weekly`
         : order.itemName,
       order_id: order.orderId,
+
       prefill: {
         email: order.userEmail || undefined,
         name: order.userName || undefined,
       },
+
       theme: { color: '#ff3b81' },
+
+      /* ── PAYMENT METHOD LAYOUT ─────────────────────────
+         Order: QR first → UPI apps → Cards/Netbanking/Wallet
+         Razorpay auto-hides QR in Test mode — appears on Live. */
+      config: {
+        display: {
+          blocks: {
+            qr: {
+              name: 'Scan QR with any UPI app',
+              instruments: [
+                { method: 'upi', flows: ['qr'] },
+              ],
+            },
+            upi_apps: {
+              name: 'Pay via UPI apps — GPay, PhonePe, Paytm, BHIM',
+              instruments: [
+                { method: 'upi', flows: ['intent', 'collect'] },
+              ],
+            },
+            other: {
+              name: 'Cards, Netbanking & Wallets',
+              instruments: [
+                { method: 'card' },
+                { method: 'netbanking' },
+                { method: 'wallet' },
+              ],
+            },
+          },
+          sequence: ['block.qr', 'block.upi_apps', 'block.other'],
+          preferences: {
+            show_default_blocks: false,
+          },
+        },
+      },
 
       handler: async (response) => {
         if (settled) return;
@@ -92,7 +118,7 @@ export async function startCheckout(payload) {
             razorpay_order_id:   response.razorpay_order_id,
             razorpay_payment_id: response.razorpay_payment_id,
             razorpay_signature:  response.razorpay_signature,
-            ...payload, // includes tier OR addonId
+            ...payload,
           };
           const result = await verifyPayment(verifyPayload);
           console.log('[razorpay] verify result:', result);
@@ -130,7 +156,7 @@ export async function startCheckout(payload) {
       reject(e);
     });
 
-    console.log('[checkout] opening razorpay modal');
+    console.log('[checkout] opening razorpay modal (QR-first)');
     rzp.open();
   });
 }

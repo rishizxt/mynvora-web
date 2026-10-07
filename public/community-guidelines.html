@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mynvora — Community Guidelines</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+       background: #0a0a12; color: #e6e6f0; line-height: 1.65; overflow-x: hidden; }
+.app-banner { position: sticky; top: 0; z-index: 100; background: #14141f;
+              border-bottom: 1px solid rgba(255,255,255,0.06);
+              padding: 10px 20px; display: flex; align-items: center;
+              justify-content: space-between; gap: 12px; }
+.app-banner-text { color: #b7b7c7; font-size: 13px; font-weight: 500;
+                   display: flex; align-items: center; gap: 8px; }
+.app-banner-btn { background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                  color: #fff; padding: 7px 18px; border-radius: 999px;
+                  font-size: 12px; font-weight: 700; text-decoration: none; }
+.hero { position: relative; padding: 72px 24px 56px; text-align: center;
+        background: #0a0a12; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0;
+                background-image: radial-gradient(circle at 50% 0%, rgba(255,45,120,0.18) 0%, transparent 55%),
+                                  radial-gradient(circle at 20% 40%, rgba(155,61,255,0.12) 0%, transparent 50%),
+                                  radial-gradient(circle at 80% 40%, rgba(255,110,199,0.10) 0%, transparent 50%);
+                pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-brand { font-size: 34px; font-weight: 900; letter-spacing: 8px;
+              background: linear-gradient(135deg, #ff2d78 0%, #ff6ec7 50%, #9b3dff 100%);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px; display: inline-block; }
+.hero-brand-sub { display: block; font-size: 11px; font-weight: 600;
+                  letter-spacing: 6px; text-transform: uppercase;
+                  color: #6b6b80; margin-bottom: 40px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: #fff;
+           letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+.hero p { font-size: 16px; color: #a8a8be; max-width: 620px;
+          margin: 0 auto; line-height: 1.7; }
+.wrap { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+.section-head { font-size: 12px; font-weight: 700; letter-spacing: 4px;
+                text-transform: uppercase; color: #6b6b80; margin: 48px 0 20px; }
+h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 12px;
+     letter-spacing: -0.3px; }
+h3 { font-size: 18px; font-weight: 700; color: #fff; margin: 24px 0 10px; }
+p, li { font-size: 15px; color: #b7b7c7; }
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+a { color: #ff5a8c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+        background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; font-size: 14px;
+         border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+th { background: rgba(110,168,255,0.08); color: #fff; font-weight: 600;
+     font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rule { display: flex; gap: 20px; padding: 26px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05); }
+.rule:last-of-type { border-bottom: none; }
+.rule-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(155,61,255,0.12));
+            border: 1px solid rgba(255,45,120,0.22); display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; color: #ff5a8c; }
+.rule-body h3 { font-size: 19px; font-weight: 800; color: #fff;
+                margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-body ul { list-style: none; padding: 0; margin-top: 8px; }
+.rule-body ul li { position: relative; padding-left: 18px;
+                   font-size: 14px; color: #a8a8be; margin-bottom: 5px; }
+.rule-body ul li::before { content: ''; position: absolute; left: 0; top: 9px;
+                           width: 6px; height: 6px; border-radius: 50%;
+                           background: #ff2d78; }
+.india-badge { display: inline-flex; align-items: center; gap: 5px;
+               background: rgba(255,153,51,0.12);
+               border: 1px solid rgba(255,153,51,0.3);
+               color: #ff9933; padding: 2px 9px; border-radius: 999px;
+               font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+               text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.callout { background: rgba(110,168,255,0.06);
+           border-left: 3px solid #6ea8ff; padding: 14px 18px;
+           margin: 20px 0; border-radius: 6px; }
+.callout.warn { background: rgba(255,80,80,0.06); border-left-color: #ff7a7a; }
+.callout p { margin: 0; font-size: 14px; }
+.impact { background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 28px; margin-top: 40px; }
+.impact h3 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+               gap: 12px; margin-top: 16px; }
+.stage { background: rgba(255,255,255,0.03);
+         border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+               color: #ff5a8c; font-weight: 700; margin-bottom: 5px; }
+.stage p { font-size: 12.5px; color: #a8a8be; margin: 0; }
+.download-block { margin-top: 72px;
+                  background: linear-gradient(135deg, #1a0a20 0%, #0f0a1f 100%);
+                  border-top: 1px solid rgba(255,255,255,0.06);
+                  padding: 60px 24px 70px; position: relative; overflow: hidden; }
+.download-block::before { content: ''; position: absolute; right: -80px; bottom: -80px;
+                          width: 380px; height: 380px;
+                          background: radial-gradient(circle, rgba(255,45,120,0.25) 0%, transparent 70%);
+                          border-radius: 50%; pointer-events: none; }
+.download-inner { max-width: 840px; margin: 0 auto; display: flex;
+                  align-items: center; justify-content: space-between;
+                  gap: 32px; position: relative; z-index: 1; flex-wrap: wrap; }
+.download-text h3 { font-size: 36px; font-weight: 900; color: #fff;
+                    letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.15; }
+.download-text p { font-size: 15px; color: #a8a8be; margin-bottom: 22px; }
+.download-btn { display: inline-flex; align-items: center; gap: 10px;
+                background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                color: #fff; padding: 14px 30px; border-radius: 999px;
+                text-decoration: none; font-weight: 800; font-size: 14px;
+                box-shadow: 0 10px 40px rgba(255,45,120,0.35); }
+.download-mark { font-size: 74px; font-weight: 900; letter-spacing: 10px;
+                 background: linear-gradient(135deg, #ff2d78 0%, #9b3dff 100%);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; text-align: center; flex-shrink: 0;
+                 line-height: 1; opacity: 0.9; }
+.footer { text-align: center; padding: 40px 24px; background: #0a0a12;
+          color: #6b6b80; font-size: 13px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.socials a { width: 42px; height: 42px; border-radius: 50%;
+             background: rgba(255,255,255,0.05); display: flex;
+             align-items: center; justify-content: center;
+             color: #b7b7c7; text-decoration: none; font-size: 16px;
+             transition: all 0.2s; }
+.socials a:hover { background: linear-gradient(135deg, #ff2d78, #9b3dff); color: #fff; }
+.footer-links { margin-bottom: 14px; }
+.footer-links a { color: #8b8b9e; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.footer-links a:hover { color: #ff5a8c; }
+.footer-copy { color: #4d4d5c; font-size: 12px; margin-top: 18px; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 30px; } .hero-brand { font-size: 26px; letter-spacing: 6px; }
+  .download-text h3 { font-size: 26px; }
+  .download-mark { font-size: 48px; letter-spacing: 6px; }
+  .download-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-banner">
+  <div class="app-banner-text"><i class="fa-solid fa-mobile-screen"></i><span>Looking for the app?</span></div>
+  <a href="#download" class="app-banner-btn">Get Mynvora</a>
+</div>
+
+<div class="hero"><div class="hero-inner">
+  <div class="hero-brand">MYNVORA</div>
+  <span class="hero-brand-sub">Community Guidelines</span>
+  <h1>Real people. Real rules. Real respect.</h1>
+  <p>Every account on Mynvora is one human being — with a story, boundaries, and the same right to safety that you have. These aren't suggestions. They're the floor we all stand on.</p>
+</div></div>
+
+<div class="wrap">
+
+  <div class="section-head">The Rules</div>
+
+  <div class="rule">
+    <div class="rule-num">01</div>
+    <div class="rule-body">
+      <h3>Respect boundaries</h3>
+      <p>Comfort levels vary. What feels fine to you might cross a line for someone else. Read the signals, ask before assuming, never push past a "no."</p>
+      <ul>
+        <li>No nudity, sexual content, or sexual solicitation on public profiles.</li>
+        <li>Consent matters in every conversation — not just physical ones.</li>
+        <li>If someone unmatched or stopped replying, let it go. That was their answer.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">02</div>
+    <div class="rule-body">
+      <h3>Share carefully</h3>
+      <p>Your personal information is yours. Don't broadcast it, and don't ask others to hand theirs over.</p>
+      <ul>
+        <li>No phone numbers, emails, home addresses, or social handles in your public bio.</li>
+        <li>Never share bank details, UPI IDs, OTPs, or passwords — no matter the story.</li>
+        <li>If someone you've never met asks for money, it's a scam. Report it.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">03</div>
+    <div class="rule-body">
+      <h3>No violent content</h3>
+      <p>Mynvora is a positive space. We don't allow content that glorifies harm.</p>
+      <ul>
+        <li>No gore, death imagery, or descriptions of violence against humans or animals.</li>
+        <li>No weapons displayed in a threatening context.</li>
+        <li>No content advocating self-harm or eating disorders.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">04</div>
+    <div class="rule-body">
+      <h3>Personal connections, not business ones</h3>
+      <p>Mynvora is for meeting people — not for growing your Instagram, selling courses, or promoting an MLM.</p>
+      <ul>
+        <li>No advertising, fundraising, campaigning, or selling products.</li>
+        <li>No sharing social handles for followers.</li>
+        <li>No sex work, escort services, or compensated relationships.</li>
+        <li>No religious or political solicitation.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">05</div>
+    <div class="rule-body">
+      <h3>Just be you <span class="india-badge">No fake profiles</span></h3>
+      <p>People want to meet the real you. Not a persona, not a filtered version, not someone else entirely.</p>
+      <ul>
+        <li>No fake accounts, catfishing, or impersonation — even "for fun."</li>
+        <li>Use photos of yourself, taken recently. AI face replacements are not allowed.</li>
+        <li>Impersonation is a criminal offence under Section 66D of India's IT Act, 2000.</li>
+        <li>Use the first name you actually go by. We don't require legal names — we require honesty.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">06</div>
+    <div class="rule-body">
+      <h3>Communicate respectfully</h3>
+      <p>Not every conversation will click — that's fine. Letting it become someone else's problem is not.</p>
+      <ul>
+        <li>No harassment, threats, bullying, doxing, sextortion, or blackmail.</li>
+        <li>No racism, casteism, communalism, sexism, homophobia, transphobia, or ableism.</li>
+        <li>If someone doesn't fit your preference, unmatch quietly.</li>
+        <li>Pause before you react. Some messages can't be unsent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">07</div>
+    <div class="rule-body">
+      <h3>Kindness over harm</h3>
+      <p>Actions that intend or cause harm — on the app or after you've met — will be taken extremely seriously.</p>
+      <ul>
+        <li>Anything calling for or inciting harm against a person or group is banned.</li>
+        <li>If someone on Mynvora has hurt you, take care of yourself first. Then report, if you can.</li>
+        <li>We work with Indian cybercrime authorities when a report involves a criminal offence.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">08</div>
+    <div class="rule-body">
+      <h3>Adults only <span class="india-badge">16+ with age tiers</span></h3>
+      <p>Mynvora requires users to be at least 16. Users aged 16–17 have a restricted tier and can only interact with other 16–17 accounts. Hookups mode and certain features are 18+ only.</p>
+      <ul>
+        <li>No photos of minors — not even of yourself as a child. This is a hard rule.</li>
+        <li>No images of unaccompanied minors or minors who are unclothed.</li>
+        <li>If we learn a user is under 16, the account is removed immediately.</li>
+        <li>Under India's DPDP Act 2023, children's data requires verifiable parental consent.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">09</div>
+    <div class="rule-body">
+      <h3>Abide by the law <span class="india-badge">IT Rules 2021</span></h3>
+      <p>No illegal content or activity. Ever.</p>
+      <ul>
+        <li>No drugs, counterfeit goods, or stolen items.</li>
+        <li>No human trafficking, sexual exploitation, or child abuse material — full stop.</li>
+        <li>No content violating India's IT Act 2000, IT Rules 2021, or DPDP Act 2023.</li>
+        <li>We remove unlawful content within 3 hours of a government order, and 2 hours for non-consensual intimate imagery.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">10</div>
+    <div class="rule-body">
+      <h3>One person, one account</h3>
+      <p>Each account belongs to one person. Not a couple, not two friends, not you and your alter ego.</p>
+      <ul>
+        <li>Don't share your login with anyone.</li>
+        <li>Don't create a second account after being banned.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">11</div>
+    <div class="rule-body">
+      <h3>Post your own content <span class="india-badge">Copyright Act 1957</span></h3>
+      <p>You own what you post. So does everyone else.</p>
+      <ul>
+        <li>Don't post photos or private messages from others without consent.</li>
+        <li>Don't upload copyrighted or trademarked work that isn't yours.</li>
+        <li>Sharing intimate images without consent is a criminal offence under Section 66E of India's IT Act.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">12</div>
+    <div class="rule-body">
+      <h3>Be a good Mynvora user</h3>
+      <p>Don't abuse the platform or the people on it.</p>
+      <ul>
+        <li>Don't spread false or misleading information.</li>
+        <li>Don't spam harmful links or unsolicited content.</li>
+        <li>Don't mass-create accounts.</li>
+        <li>Don't scam people into sending money or items.</li>
+        <li>Don't submit false or malicious reports — this harms real people.</li>
+        <li>Don't use third-party apps or bots to unlock features.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">13</div>
+    <div class="rule-body">
+      <h3>Stay active, or we'll tidy up</h3>
+      <p>If you don't log in to Mynvora for <strong>two years</strong>, we'll assume the account isn't in use and may delete it. Come back every so often so you're seen.</p>
+    </div>
+  </div>
+
+  <div class="section-head">India-Specific</div>
+
+  <div class="rule">
+    <div class="rule-num">IN</div>
+    <div class="rule-body">
+      <h3>Legal age, consent, identity</h3>
+      <ul>
+        <li><strong>Marriage Act:</strong> Legal marriage age is 18 for women, 21 for men. We do not facilitate or encourage child marriage.</li>
+        <li><strong>Sections 354A–D, IPC:</strong> Sexual harassment, assault, stalking, and voyeurism are criminal offences. We cooperate fully with law enforcement.</li>
+        <li><strong>Section 67, IT Act:</strong> Publishing obscene material electronically is punishable with imprisonment. We remove such content proactively.</li>
+        <li><strong>Section 66D, IT Act:</strong> Impersonation using a computer resource is punishable. No fake profiles.</li>
+        <li><strong>Grievance Officer:</strong> Per IT Rules 2021, contact <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>. Complaints acknowledged within 24 hours, resolved within 15 days.</li>
+        <li><strong>Grievance Appellate Committee:</strong> Appeal to the Government's GAC at <a href="https://gac.gov.in" target="_blank">gac.gov.in</a>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">IN</div>
+    <div class="rule-body">
+      <h3>Data protection under DPDP Act 2023</h3>
+      <ul>
+        <li>We collect only the personal data we need, and only with your consent.</li>
+        <li>You can access, correct, and erase your data any time from Settings.</li>
+        <li>You can nominate another person to exercise your data rights on your behalf.</li>
+        <li>Deletion requests are actioned within 30 days.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num">IN</div>
+    <div class="rule-body">
+      <h3>Indian cybercrime reporting</h3>
+      <ul>
+        <li>If you are the victim of online fraud, sextortion, or harassment, report it to India's National Cyber Crime Portal at <a href="https://cybercrime.gov.in" target="_blank">cybercrime.gov.in</a> or call 1930.</li>
+        <li>Mynvora will cooperate with any lawful investigation, including preserving records for the period required by law.</li>
+        <li>For women in distress: dial <strong>181</strong> (Women's Helpline). For general emergencies: dial <strong>112</strong>.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-head">Enforcement</div>
+
+  <div class="impact">
+    <h3>What happens if you break the rules</h3>
+    <p>We don't ban people on a whim — but when we act, we act fairly. Our enforcement is proportional to what you did.</p>
+    <div class="impact-grid">
+      <div class="stage"><div class="stage-label">Nudge</div><p>A gentle reminder in-app for a minor or unclear violation.</p></div>
+      <div class="stage"><div class="stage-label">Warning</div><p>A formal warning. Repeat violations escalate.</p></div>
+      <div class="stage"><div class="stage-label">Feature Restriction</div><p>Temporary loss of specific features (messaging, hookups, etc.).</p></div>
+      <div class="stage"><div class="stage-label">Ban</div><p>Permanent removal for serious or repeated violations, without refund.</p></div>
+    </div>
+    <p style="margin-top:18px;font-size:13px;color:#8b8b9e">Off-platform behaviour can also lead to removal. If you harm someone you met on Mynvora, that's a Mynvora matter.</p>
+  </div>
+
+  <div class="section-head">Appeals</div>
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-arrow-right" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>If you believe action was taken in error</h3>
+      <p>Email <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a> with your account email and a description of what you think was mistaken. A human reviewer will look at your case.</p>
+    </div>
+  </div>
+
+</div>
+
+<div class="download-block" id="download">
+  <div class="download-inner">
+    <div class="download-text">
+      <h3>Looking for the app?</h3>
+      <p>Get Mynvora on Android. iOS coming soon.</p>
+      <a href="#" class="download-btn"><i class="fa-brands fa-google-play"></i> Download Mynvora</a>
+    </div>
+    <div class="download-mark">MYNVORA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="socials">
+    <a href="https://instagram.com/mynvora" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://twitter.com/mynvora" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/mynvora" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://youtube.com/@mynvora" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:mynvora@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/cookie-policy.html">Cookies</a>
+    <a href="/community-guidelines.html">Guidelines</a>
+    <a href="/safety-tips.html">Safety</a>
+    <a href="/account-deletion.html">Delete Account</a>
+    <a href="/grievance.html">Grievance</a>
+  </div>
+  <div class="footer-copy">© 2026 Mynvora. All rights reserved.</div>
+</div>
+
+</body>
+</html>

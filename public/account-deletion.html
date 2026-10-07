@@ -1,0 +1,284 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mynvora — Delete Your Account</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+       background: #0a0a12; color: #e6e6f0; line-height: 1.65; overflow-x: hidden; }
+.app-banner { position: sticky; top: 0; z-index: 100; background: #14141f;
+              border-bottom: 1px solid rgba(255,255,255,0.06);
+              padding: 10px 20px; display: flex; align-items: center;
+              justify-content: space-between; gap: 12px; }
+.app-banner-text { color: #b7b7c7; font-size: 13px; font-weight: 500;
+                   display: flex; align-items: center; gap: 8px; }
+.app-banner-btn { background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                  color: #fff; padding: 7px 18px; border-radius: 999px;
+                  font-size: 12px; font-weight: 700; text-decoration: none; }
+.hero { position: relative; padding: 72px 24px 56px; text-align: center;
+        background: #0a0a12; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0;
+                background-image: radial-gradient(circle at 50% 0%, rgba(255,45,120,0.18) 0%, transparent 55%),
+                                  radial-gradient(circle at 20% 40%, rgba(155,61,255,0.12) 0%, transparent 50%),
+                                  radial-gradient(circle at 80% 40%, rgba(255,110,199,0.10) 0%, transparent 50%);
+                pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-brand { font-size: 34px; font-weight: 900; letter-spacing: 8px;
+              background: linear-gradient(135deg, #ff2d78 0%, #ff6ec7 50%, #9b3dff 100%);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px; display: inline-block; }
+.hero-brand-sub { display: block; font-size: 11px; font-weight: 600;
+                  letter-spacing: 6px; text-transform: uppercase;
+                  color: #6b6b80; margin-bottom: 40px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: #fff;
+           letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+.hero p { font-size: 16px; color: #a8a8be; max-width: 620px;
+          margin: 0 auto; line-height: 1.7; }
+.wrap { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+.section-head { font-size: 12px; font-weight: 700; letter-spacing: 4px;
+                text-transform: uppercase; color: #6b6b80; margin: 48px 0 20px; }
+h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 12px;
+     letter-spacing: -0.3px; }
+h3 { font-size: 18px; font-weight: 700; color: #fff; margin: 24px 0 10px; }
+p, li { font-size: 15px; color: #b7b7c7; }
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+a { color: #ff5a8c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+        background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; font-size: 14px;
+         border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+th { background: rgba(110,168,255,0.08); color: #fff; font-weight: 600;
+     font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rule { display: flex; gap: 20px; padding: 26px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05); }
+.rule:last-of-type { border-bottom: none; }
+.rule-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(155,61,255,0.12));
+            border: 1px solid rgba(255,45,120,0.22); display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; color: #ff5a8c; }
+.rule-body h3 { font-size: 19px; font-weight: 800; color: #fff;
+                margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-body ul { list-style: none; padding: 0; margin-top: 8px; }
+.rule-body ul li { position: relative; padding-left: 18px;
+                   font-size: 14px; color: #a8a8be; margin-bottom: 5px; }
+.rule-body ul li::before { content: ''; position: absolute; left: 0; top: 9px;
+                           width: 6px; height: 6px; border-radius: 50%;
+                           background: #ff2d78; }
+.india-badge { display: inline-flex; align-items: center; gap: 5px;
+               background: rgba(255,153,51,0.12);
+               border: 1px solid rgba(255,153,51,0.3);
+               color: #ff9933; padding: 2px 9px; border-radius: 999px;
+               font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+               text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.callout { background: rgba(110,168,255,0.06);
+           border-left: 3px solid #6ea8ff; padding: 14px 18px;
+           margin: 20px 0; border-radius: 6px; }
+.callout.warn { background: rgba(255,80,80,0.06); border-left-color: #ff7a7a; }
+.callout p { margin: 0; font-size: 14px; }
+.impact { background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 28px; margin-top: 40px; }
+.impact h3 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+               gap: 12px; margin-top: 16px; }
+.stage { background: rgba(255,255,255,0.03);
+         border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+               color: #ff5a8c; font-weight: 700; margin-bottom: 5px; }
+.stage p { font-size: 12.5px; color: #a8a8be; margin: 0; }
+.download-block { margin-top: 72px;
+                  background: linear-gradient(135deg, #1a0a20 0%, #0f0a1f 100%);
+                  border-top: 1px solid rgba(255,255,255,0.06);
+                  padding: 60px 24px 70px; position: relative; overflow: hidden; }
+.download-block::before { content: ''; position: absolute; right: -80px; bottom: -80px;
+                          width: 380px; height: 380px;
+                          background: radial-gradient(circle, rgba(255,45,120,0.25) 0%, transparent 70%);
+                          border-radius: 50%; pointer-events: none; }
+.download-inner { max-width: 840px; margin: 0 auto; display: flex;
+                  align-items: center; justify-content: space-between;
+                  gap: 32px; position: relative; z-index: 1; flex-wrap: wrap; }
+.download-text h3 { font-size: 36px; font-weight: 900; color: #fff;
+                    letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.15; }
+.download-text p { font-size: 15px; color: #a8a8be; margin-bottom: 22px; }
+.download-btn { display: inline-flex; align-items: center; gap: 10px;
+                background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                color: #fff; padding: 14px 30px; border-radius: 999px;
+                text-decoration: none; font-weight: 800; font-size: 14px;
+                box-shadow: 0 10px 40px rgba(255,45,120,0.35); }
+.download-mark { font-size: 74px; font-weight: 900; letter-spacing: 10px;
+                 background: linear-gradient(135deg, #ff2d78 0%, #9b3dff 100%);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; text-align: center; flex-shrink: 0;
+                 line-height: 1; opacity: 0.9; }
+.footer { text-align: center; padding: 40px 24px; background: #0a0a12;
+          color: #6b6b80; font-size: 13px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.socials a { width: 42px; height: 42px; border-radius: 50%;
+             background: rgba(255,255,255,0.05); display: flex;
+             align-items: center; justify-content: center;
+             color: #b7b7c7; text-decoration: none; font-size: 16px;
+             transition: all 0.2s; }
+.socials a:hover { background: linear-gradient(135deg, #ff2d78, #9b3dff); color: #fff; }
+.footer-links { margin-bottom: 14px; }
+.footer-links a { color: #8b8b9e; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.footer-links a:hover { color: #ff5a8c; }
+.footer-copy { color: #4d4d5c; font-size: 12px; margin-top: 18px; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 30px; } .hero-brand { font-size: 26px; letter-spacing: 6px; }
+  .download-text h3 { font-size: 26px; }
+  .download-mark { font-size: 48px; letter-spacing: 6px; }
+  .download-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-banner">
+  <div class="app-banner-text"><i class="fa-solid fa-mobile-screen"></i><span>In the app? Delete faster from Settings.</span></div>
+  <a href="#download" class="app-banner-btn">Get Mynvora</a>
+</div>
+
+<div class="hero"><div class="hero-inner">
+  <div class="hero-brand">MYNVORA</div>
+  <span class="hero-brand-sub">Account Deletion</span>
+  <h1>Leaving? We'll make it easy.</h1>
+  <p>Delete your account in-app or by email. We'll never make you jump through hoops.</p>
+</div></div>
+
+<div class="wrap">
+
+  <div class="callout">
+    <p><strong>Note for Indian users:</strong> If you are unable to delete your account via the app or email, you may file a grievance with our Grievance Officer at <a href="/grievance.html">mynvora.app/grievance</a>. Requests are acknowledged within 24 hours and resolved within 15 days.</p>
+  </div>
+
+  <h2>Option 1 — In the app (fastest)</h2>
+  <ol>
+    <li>Open the Mynvora app on your phone</li>
+    <li>Go to <strong>Settings → Delete Account</strong></li>
+    <li>Confirm by typing <code style="background:#1a1a24;padding:2px 8px;border-radius:4px;color:#a8c8ff;font-size:14px">DELETE</code></li>
+  </ol>
+  <p>Your account is deleted immediately and you are signed out.</p>
+
+  <h2>Option 2 — By email (no app needed)</h2>
+  <div class="callout">
+    <p><strong>Send an email to</strong> <a href="mailto:mynvora@gmail.com?subject=Account%20deletion%20request">mynvora@gmail.com</a></p>
+    <p style="margin-top:10px">Include:</p>
+    <ul style="margin-top:6px;margin-bottom:0">
+      <li>The email address or phone number associated with your Mynvora account</li>
+      <li>Send from the same email address you registered with (so we can verify it's you)</li>
+    </ul>
+  </div>
+  <p>We process emailed deletion requests within <strong>7 days</strong>. You'll receive a confirmation once the account is deleted.</p>
+
+  <h2>What gets deleted</h2>
+  <div class="impact">
+    <div class="impact-grid">
+      <div class="stage">
+        <div class="stage-label">Profile</div>
+        <p>Your profile, photos, and bio are removed immediately.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Matches</div>
+        <p>Your matches and conversations are permanently deleted.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Swipes</div>
+        <p>All your likes and passes are removed.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Subscription</div>
+        <p>Any active subscription is cancelled — no refund.</p>
+      </div>
+    </div>
+  </div>
+
+  <h2>What we keep</h2>
+  <ul>
+    <li><strong>Anonymized transaction records</strong> — kept for up to 7 years for tax and legal compliance. Required by law. No personal data attached.</li>
+    <li><strong>Aggregate analytics</strong> — anonymized metrics with no identifiers, used to understand app performance.</li>
+  </ul>
+
+  <h2>Timeline</h2>
+  <table>
+    <thead><tr><th>Action</th><th>When</th></tr></thead>
+    <tbody>
+      <tr><td>In-app deletion</td><td>Immediate (within seconds)</td></tr>
+      <tr><td>Emailed deletion request acknowledgment</td><td>Within 24 hours</td></tr>
+      <tr><td>Emailed deletion request completed</td><td>Within 7 days</td></tr>
+      <tr><td>Full backup purge (disaster recovery)</td><td>Within 30 days</td></tr>
+      <tr><td>Anonymized transaction records retained</td><td>Up to 7 years (legal requirement)</td></tr>
+    </tbody>
+  </table>
+
+  <h2>India-specific rights</h2>
+  <p>Under the Digital Personal Data Protection Act, 2023 (DPDP Act), you have the right to:</p>
+  <ul>
+    <li><strong>Access</strong> your personal data — request a copy</li>
+    <li><strong>Correct</strong> inaccurate or incomplete data</li>
+    <li><strong>Erase</strong> your data (subject to legal retention requirements)</li>
+    <li><strong>Nominate</strong> another person to exercise these rights on your behalf</li>
+    <li><strong>Grievance redressal</strong> — file a complaint with our Data Protection Officer</li>
+  </ul>
+  <p>To exercise any of these, email <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>. We respond within 30 days.</p>
+
+  <h2>Can I recover my account?</h2>
+  <div class="callout warn">
+    <p><strong>No.</strong> Deletion is permanent. Once your account is deleted, your profile, matches, messages, and photos cannot be recovered. If you just need a break, consider <strong>deactivating</strong> instead — deactivation hides your profile but keeps your data intact for when you return.</p>
+  </div>
+
+  <h2>Need help?</h2>
+  <p>If you have trouble deleting your account, or if you believe your account was deleted by someone else, contact us immediately at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+
+  <h2>Contact</h2>
+  <table>
+    <tbody>
+      <tr><td><strong>General support</strong></td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td></tr>
+      <tr><td><strong>Grievance Officer (India)</strong></td><td><a href="/grievance.html">See grievance page</a></td></tr>
+      <tr><td><strong>Data Protection Officer</strong></td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td></tr>
+    </tbody>
+  </table>
+
+</div>
+
+<div class="download-block" id="download">
+  <div class="download-inner">
+    <div class="download-text">
+      <h3>Looking for the app?</h3>
+      <p>Get Mynvora on Android. iOS coming soon.</p>
+      <a href="#" class="download-btn"><i class="fa-brands fa-google-play"></i> Download Mynvora</a>
+    </div>
+    <div class="download-mark">MYNVORA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="socials">
+    <a href="https://instagram.com/mynvora" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://twitter.com/mynvora" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/mynvora" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://youtube.com/@mynvora" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:mynvora@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/cookie-policy.html">Cookies</a>
+    <a href="/community-guidelines.html">Guidelines</a>
+    <a href="/safety-tips.html">Safety</a>
+    <a href="/account-deletion.html">Delete Account</a>
+    <a href="/grievance.html">Grievance</a>
+  </div>
+  <div class="footer-copy">© 2026 Mynvora. All rights reserved.</div>
+</div>
+
+</body>
+</html>

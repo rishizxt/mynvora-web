@@ -1,16 +1,15 @@
 // =========================================================
 // MYNVORA — DELETE ACCOUNT
-// Multi-step confirmation flow.
 // Step 1: Warning + reason
-// Step 2: Type DELETE to confirm
-// Step 3: Success
+// Step 2: Type DELETE to confirm (+ password if applicable)
+// Step 3: Deleting
+// Step 4: Done
 // =========================================================
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { useProfileStore } from '../../store/profileStore.js';
-import { useSettingsStore } from '../../store/settingsStore.js';
 import { useUserStore } from '../../store/userStore.js';
+import api from '../../lib/api.js';
 
 const REASONS = [
   'Found someone',
@@ -24,34 +23,48 @@ const REASONS = [
 
 export default function DeleteAccount() {
   const navigate = useNavigate();
-  const profile = useProfileStore();
-  const settings = useSettingsStore();
-  const user = useUserStore();
+  const logout = useUserStore((s) => s.logout);
 
   const [step, setStep] = useState('warning');       // warning | confirm | deleting | done
   const [reason, setReason] = useState('');
+  const [password, setPassword] = useState('');
   const [confirmText, setConfirmText] = useState('');
+  const [error, setError] = useState('');
 
   const canConfirm = confirmText.trim().toUpperCase() === 'DELETE';
 
-  const proceed = () => {
+    const proceed = async () => {
+    if (!canConfirm) return;
+    setError('');
     setStep('deleting');
-    // Simulate deletion delay
-    setTimeout(() => {
-      // Clear everything
-      profile.reset?.();
-      settings.reset?.();
-      user.reset?.();
-      localStorage.removeItem('mynvora_profile');
-      localStorage.removeItem('mynvora_settings');
+
+    try {
+      /* 1. Delete server-side */
+      await api.post('/auth/account/delete', {
+        password: password || undefined,
+        reason: reason || undefined,
+        confirmation: 'DELETE',
+      });
+
+      /* 2. Clear local tokens WITHOUT triggering logout().
+            The route guard would redirect to /welcome before
+            we can show the "Account deleted" screen.
+            We do the full logout on the "Back to home" button. */
       localStorage.removeItem('mynvora_user');
-      localStorage.removeItem('mynvora_reports');
-      localStorage.removeItem('mynvora_swipes');
+      localStorage.removeItem('mynvora_access');
+      localStorage.removeItem('mynvora_refresh');
 
+      /* 3. Show success screen */
       setStep('done');
-    }, 1500);
+    } catch (err) {
+      const msg =
+        err.response?.data?.error ||
+        err.response?.data?.message ||
+        'Deletion failed. Please try again.';
+      setError(msg);
+      setStep('confirm');
+    }
   };
-
   // =========================================================
   // STEP 1 — Warning
   // =========================================================
@@ -59,17 +72,13 @@ export default function DeleteAccount() {
     return (
       <div className="settings-screen">
         <div className="settings-page-head">
-          <button
-            className="back-btn-inline"
-            onClick={() => navigate(-1)}
-          >
+          <button className="back-btn-inline" onClick={() => navigate(-1)}>
             <i className="fa-solid fa-arrow-left" />
           </button>
           <h1>Delete Account</h1>
           <div style={{ width: 44 }} />
         </div>
 
-        {/* Warning hero */}
         <div className="delete-hero">
           <div className="delete-hero-icon">
             <i className="fa-solid fa-triangle-exclamation" />
@@ -81,7 +90,6 @@ export default function DeleteAccount() {
           </p>
         </div>
 
-        {/* What gets deleted */}
         <div className="settings-section">
           <div className="settings-section-title">What will be deleted</div>
 
@@ -109,7 +117,6 @@ export default function DeleteAccount() {
           </div>
         </div>
 
-        {/* Reason */}
         <div className="settings-section">
           <div className="settings-section-title">
             Why are you leaving? (optional)
@@ -119,9 +126,7 @@ export default function DeleteAccount() {
             {REASONS.map((r) => (
               <button
                 key={r}
-                className={`delete-reason ${
-                  reason === r ? 'active' : ''
-                }`}
+                className={`delete-reason ${reason === r ? 'active' : ''}`}
                 onClick={() => setReason(reason === r ? '' : r)}
               >
                 {r}
@@ -130,18 +135,11 @@ export default function DeleteAccount() {
           </div>
         </div>
 
-        {/* Actions */}
         <div className="settings-save-bar">
-          <button
-            className="btn-ghost"
-            onClick={() => navigate(-1)}
-          >
+          <button className="btn-ghost" onClick={() => navigate(-1)}>
             Keep my account
           </button>
-          <button
-            className="btn-danger"
-            onClick={() => setStep('confirm')}
-          >
+          <button className="btn-danger" onClick={() => setStep('confirm')}>
             Continue <span>→</span>
           </button>
         </div>
@@ -150,16 +148,13 @@ export default function DeleteAccount() {
   }
 
   // =========================================================
-  // STEP 2 — Confirm (type DELETE)
+  // STEP 2 — Confirm
   // =========================================================
   if (step === 'confirm') {
     return (
       <div className="settings-screen">
         <div className="settings-page-head">
-          <button
-            className="back-btn-inline"
-            onClick={() => setStep('warning')}
-          >
+          <button className="back-btn-inline" onClick={() => setStep('warning')}>
             <i className="fa-solid fa-arrow-left" />
           </button>
           <h1>Confirm</h1>
@@ -178,6 +173,21 @@ export default function DeleteAccount() {
         </div>
 
         <div className="settings-section">
+          <div className="settings-section-title">
+            Password (only if you signed up with email)
+          </div>
+          <div className="field">
+            <input
+              type="password"
+              placeholder="Your password (or leave blank for Google)"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+          </div>
+        </div>
+
+        <div className="settings-section">
+          <div className="settings-section-title">Type DELETE to confirm</div>
           <div className="field">
             <input
               type="text"
@@ -196,11 +206,14 @@ export default function DeleteAccount() {
           </div>
         </div>
 
+        {error && (
+          <div className="input-error" style={{ margin: '0 16px 16px' }}>
+            <i className="fa-solid fa-circle-xmark" /> {error}
+          </div>
+        )}
+
         <div className="settings-save-bar">
-          <button
-            className="btn-ghost"
-            onClick={() => setStep('warning')}
-          >
+          <button className="btn-ghost" onClick={() => setStep('warning')}>
             Cancel
           </button>
           <button
@@ -216,7 +229,7 @@ export default function DeleteAccount() {
   }
 
   // =========================================================
-  // STEP 3 — Deleting (spinner)
+  // STEP 3 — Deleting
   // =========================================================
   if (step === 'deleting') {
     return (
@@ -272,7 +285,10 @@ export default function DeleteAccount() {
 
           <button
             className="btn-main"
-            onClick={() => navigate('/')}
+            onClick={async () => {
+              try { await logout(); } catch {}
+              navigate('/welcome', { replace: true });
+            }}
             style={{ marginTop: 24 }}
           >
             Back to home <span>→</span>

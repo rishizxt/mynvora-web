@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mynvora — Grievance Redressal</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+       background: #0a0a12; color: #e6e6f0; line-height: 1.65; overflow-x: hidden; }
+.app-banner { position: sticky; top: 0; z-index: 100; background: #14141f;
+              border-bottom: 1px solid rgba(255,255,255,0.06);
+              padding: 10px 20px; display: flex; align-items: center;
+              justify-content: space-between; gap: 12px; }
+.app-banner-text { color: #b7b7c7; font-size: 13px; font-weight: 500;
+                   display: flex; align-items: center; gap: 8px; }
+.app-banner-btn { background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                  color: #fff; padding: 7px 18px; border-radius: 999px;
+                  font-size: 12px; font-weight: 700; text-decoration: none; }
+.hero { position: relative; padding: 72px 24px 56px; text-align: center;
+        background: #0a0a12; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0;
+                background-image: radial-gradient(circle at 50% 0%, rgba(255,45,120,0.18) 0%, transparent 55%),
+                                  radial-gradient(circle at 20% 40%, rgba(155,61,255,0.12) 0%, transparent 50%),
+                                  radial-gradient(circle at 80% 40%, rgba(255,110,199,0.10) 0%, transparent 50%);
+                pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-brand { font-size: 34px; font-weight: 900; letter-spacing: 8px;
+              background: linear-gradient(135deg, #ff2d78 0%, #ff6ec7 50%, #9b3dff 100%);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px; display: inline-block; }
+.hero-brand-sub { display: block; font-size: 11px; font-weight: 600;
+                  letter-spacing: 6px; text-transform: uppercase;
+                  color: #6b6b80; margin-bottom: 40px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: #fff;
+           letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+.hero p { font-size: 16px; color: #a8a8be; max-width: 620px;
+          margin: 0 auto; line-height: 1.7; }
+.wrap { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+.section-head { font-size: 12px; font-weight: 700; letter-spacing: 4px;
+                text-transform: uppercase; color: #6b6b80; margin: 48px 0 20px; }
+h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 12px;
+     letter-spacing: -0.3px; }
+h3 { font-size: 18px; font-weight: 700; color: #fff; margin: 24px 0 10px; }
+p, li { font-size: 15px; color: #b7b7c7; }
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+a { color: #ff5a8c; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+        background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; font-size: 14px;
+         border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+th { background: rgba(110,168,255,0.08); color: #fff; font-weight: 600;
+     font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rule { display: flex; gap: 20px; padding: 26px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05); }
+.rule:last-of-type { border-bottom: none; }
+.rule-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(255,45,120,0.12), rgba(155,61,255,0.12));
+            border: 1px solid rgba(255,45,120,0.22); display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; color: #ff5a8c; }
+.rule-body h3 { font-size: 19px; font-weight: 800; color: #fff;
+                margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-body ul { list-style: none; padding: 0; margin-top: 8px; }
+.rule-body ul li { position: relative; padding-left: 18px;
+                   font-size: 14px; color: #a8a8be; margin-bottom: 5px; }
+.rule-body ul li::before { content: ''; position: absolute; left: 0; top: 9px;
+                           width: 6px; height: 6px; border-radius: 50%;
+                           background: #ff2d78; }
+.india-badge { display: inline-flex; align-items: center; gap: 5px;
+               background: rgba(255,153,51,0.12);
+               border: 1px solid rgba(255,153,51,0.3);
+               color: #ff9933; padding: 2px 9px; border-radius: 999px;
+               font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+               text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.callout { background: rgba(110,168,255,0.06);
+           border-left: 3px solid #6ea8ff; padding: 14px 18px;
+           margin: 20px 0; border-radius: 6px; }
+.callout.warn { background: rgba(255,80,80,0.06); border-left-color: #ff7a7a; }
+.callout p { margin: 0; font-size: 14px; }
+.impact { background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 28px; margin-top: 40px; }
+.impact h3 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+               gap: 12px; margin-top: 16px; }
+.stage { background: rgba(255,255,255,0.03);
+         border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+               color: #ff5a8c; font-weight: 700; margin-bottom: 5px; }
+.stage p { font-size: 12.5px; color: #a8a8be; margin: 0; }
+.download-block { margin-top: 72px;
+                  background: linear-gradient(135deg, #1a0a20 0%, #0f0a1f 100%);
+                  border-top: 1px solid rgba(255,255,255,0.06);
+                  padding: 60px 24px 70px; position: relative; overflow: hidden; }
+.download-block::before { content: ''; position: absolute; right: -80px; bottom: -80px;
+                          width: 380px; height: 380px;
+                          background: radial-gradient(circle, rgba(255,45,120,0.25) 0%, transparent 70%);
+                          border-radius: 50%; pointer-events: none; }
+.download-inner { max-width: 840px; margin: 0 auto; display: flex;
+                  align-items: center; justify-content: space-between;
+                  gap: 32px; position: relative; z-index: 1; flex-wrap: wrap; }
+.download-text h3 { font-size: 36px; font-weight: 900; color: #fff;
+                    letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.15; }
+.download-text p { font-size: 15px; color: #a8a8be; margin-bottom: 22px; }
+.download-btn { display: inline-flex; align-items: center; gap: 10px;
+                background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                color: #fff; padding: 14px 30px; border-radius: 999px;
+                text-decoration: none; font-weight: 800; font-size: 14px;
+                box-shadow: 0 10px 40px rgba(255,45,120,0.35); }
+.download-mark { font-size: 74px; font-weight: 900; letter-spacing: 10px;
+                 background: linear-gradient(135deg, #ff2d78 0%, #9b3dff 100%);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; text-align: center; flex-shrink: 0;
+                 line-height: 1; opacity: 0.9; }
+.footer { text-align: center; padding: 40px 24px; background: #0a0a12;
+          color: #6b6b80; font-size: 13px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.socials a { width: 42px; height: 42px; border-radius: 50%;
+             background: rgba(255,255,255,0.05); display: flex;
+             align-items: center; justify-content: center;
+             color: #b7b7c7; text-decoration: none; font-size: 16px;
+             transition: all 0.2s; }
+.socials a:hover { background: linear-gradient(135deg, #ff2d78, #9b3dff); color: #fff; }
+.footer-links { margin-bottom: 14px; }
+.footer-links a { color: #8b8b9e; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.footer-links a:hover { color: #ff5a8c; }
+.footer-copy { color: #4d4d5c; font-size: 12px; margin-top: 18px; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 30px; } .hero-brand { font-size: 26px; letter-spacing: 6px; }
+  .download-text h3 { font-size: 26px; }
+  .download-mark { font-size: 48px; letter-spacing: 6px; }
+  .download-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-banner">
+  <div class="app-banner-text"><i class="fa-solid fa-mobile-screen"></i><span>Looking for the app?</span></div>
+  <a href="#download" class="app-banner-btn">Get Mynvora</a>
+</div>
+
+<div class="hero"><div class="hero-inner">
+  <div class="hero-brand">MYNVORA</div>
+  <span class="hero-brand-sub">Grievance Redressal</span>
+  <h1>Complaints acknowledged in 24 hours.</h1>
+  <p>In accordance with India's Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, we provide a grievance redressal mechanism for all users in India.</p>
+</div></div>
+
+<div class="wrap">
+
+  <div class="callout warn">
+    <p><strong>If you are in immediate danger, call 112 (emergency) or 181 (Women's Helpline).</strong> This page is for complaints about our platform, not emergency services.</p>
+  </div>
+
+  <h2>Grievance Officer (India)</h2>
+  <p>In accordance with the Information Technology (Intermediary Guidelines and Digital Media Ethics Code) Rules, 2021, Mynvora has appointed a Grievance Officer to address user complaints.</p>
+  <table>
+    <tbody>
+      <tr><td><strong>Name</strong></td><td>Grievance Officer, Mynvora</td></tr>
+      <tr><td><strong>Email</strong></td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td></tr>
+      <tr><td><strong>Subject line</strong></td><td>Please use "Grievance — [Your account email]"</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Timelines</h2>
+  <table>
+    <thead><tr><th>Stage</th><th>Timeline</th></tr></thead>
+    <tbody>
+      <tr><td>Acknowledgment of receipt</td><td>Within <strong>24 hours</strong></td></tr>
+      <tr><td>Disposition / resolution</td><td>Within <strong>15 days</strong> from receipt</td></tr>
+      <tr><td>Unlawful content removal (government/court order)</td><td>Within <strong>3 hours</strong></td></tr>
+      <tr><td>Non-consensual intimate imagery removal</td><td>Within <strong>2 hours</strong></td></tr>
+    </tbody>
+  </table>
+
+  <h2>What we can help with</h2>
+  <ul>
+    <li>Content takedown requests (harassment, impersonation, non-consensual imagery)</li>
+    <li>Account access issues</li>
+    <li>Impersonation or fake profile reports</li>
+    <li>Data privacy and DPDP Act requests (access, correction, erasure)</li>
+    <li>Payment and subscription complaints</li>
+    <li>Abuse of the reporting system</li>
+    <li>Any other complaint regarding our compliance with the IT Act, 2000 and IT Rules, 2021</li>
+  </ul>
+
+  <h2>How to file a grievance</h2>
+  <ol>
+    <li>Email <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a> with the subject line "Grievance — [Your account email]".</li>
+    <li>Include your registered email or phone number, a clear description of the issue, and any supporting evidence (screenshots, URLs, profile IDs).</li>
+    <li>You will receive an acknowledgment within 24 hours.</li>
+    <li>We will investigate and provide a resolution within 15 days.</li>
+  </ol>
+
+  <h2>Escalation — Grievance Appellate Committee</h2>
+  <p>If you are not satisfied with our response, you may appeal to the Government of India's Grievance Appellate Committee (GAC) within 30 days of receiving our decision. The GAC is accessible at <a href="https://gac.gov.in" target="_blank">gac.gov.in</a>.</p>
+
+  <h2>Law enforcement requests</h2>
+  <p>Lawful requests from law enforcement, courts, or government authorities should be sent to <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a> with the subject line "Law Enforcement Request". We respond to valid legal process in accordance with applicable law.</p>
+
+  <h2>Data Protection Officer (DPO)</h2>
+  <p>For requests under India's Digital Personal Data Protection Act, 2023 (access, correction, erasure, grievance), you may contact our Data Protection Officer at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>. We respond within 30 days.</p>
+
+  <h2>Monthly compliance report</h2>
+  <p>Under Rule 3(1)(i) of the IT Rules, 2021, Mynvora publishes a monthly compliance report covering:</p>
+  <div class="impact">
+    <div class="impact-grid">
+      <div class="stage">
+        <div class="stage-label">Complaints</div>
+        <p>Number of complaints received and actioned in the month.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Content Removed</div>
+        <p>Number of content items removed proactively via automated tools.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Accounts Banned</div>
+        <p>Number of accounts suspended or banned for violations.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Requests</div>
+        <p>Law enforcement requests received and acted upon.</p>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:#8b8b9e">Reports are available on request at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>.</p>
+  </div>
+
+  <h2>Escalation paths summary</h2>
+  <table>
+    <thead><tr><th>Level</th><th>Contact</th><th>Response time</th></tr></thead>
+    <tbody>
+      <tr><td>1. In-app report</td><td>Three-dot menu → Report</td><td>As soon as reviewed</td></tr>
+      <tr><td>2. Grievance Officer</td><td><a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></td><td>24h ack / 15 days resolution</td></tr>
+      <tr><td>3. Grievance Appellate Committee</td><td><a href="https://gac.gov.in" target="_blank">gac.gov.in</a></td><td>Per GAC rules</td></tr>
+      <tr><td>4. Law enforcement</td><td><a href="https://cybercrime.gov.in" target="_blank">cybercrime.gov.in</a> or 1930</td><td>Per authority</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Contact us</h2>
+  <p>For any grievance-related question:</p>
+  <p><strong>Email:</strong> <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a></p>
+
+</div>
+
+<div class="download-block" id="download">
+  <div class="download-inner">
+    <div class="download-text">
+      <h3>Looking for the app?</h3>
+      <p>Get Mynvora on Android. iOS coming soon.</p>
+      <a href="#" class="download-btn"><i class="fa-brands fa-google-play"></i> Download Mynvora</a>
+    </div>
+    <div class="download-mark">MYNVORA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="socials">
+    <a href="https://instagram.com/mynvora" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://twitter.com/mynvora" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/mynvora" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://youtube.com/@mynvora" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:mynvora@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/cookie-policy.html">Cookies</a>
+    <a href="/community-guidelines.html">Guidelines</a>
+    <a href="/safety-tips.html">Safety</a>
+    <a href="/account-deletion.html">Delete Account</a>
+    <a href="/grievance.html">Grievance</a>
+  </div>
+  <div class="footer-copy">© 2026 Mynvora. All rights reserved.</div>
+</div>
+
+</body>
+</html>

@@ -12514,3 +12514,138 @@ body:has(.ob-screen) .orb {
   background: rgba(255, 255, 255, 0.3);
   color: #fff;
 }
+
+/* =========================================================
+   PROFILE CARD — Nearby pill
+   ========================================================= */
+.pc-nearby-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  width: fit-content;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.pc-nearby-pill i {
+  font-size: 10px;
+  color: #ff9eb5;
+}
+
+/* =========================================================
+   PROFILE CARD — Nearby pill
+   ========================================================= */
+.pc-nearby-pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 5px;
+  padding: 5px 12px;
+  background: rgba(255, 255, 255, 0.16);
+  border: 1px solid rgba(255, 255, 255, 0.28);
+  border-radius: 999px;
+  font-size: 11px;
+  font-weight: 800;
+  color: #fff;
+  letter-spacing: 0.3px;
+  margin-bottom: 8px;
+  width: fit-content;
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+}
+
+.pc-nearby-pill i {
+  font-size: 10px;
+  color: #ff9eb5;
+}
+
+/* =========================================================
+   SWIPE TOP BAR — icon buttons + badge
+   ========================================================= */
+.st-icon-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #f4f4f8;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a2e;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease;
+  font-family: inherit;
+}
+
+.st-icon-btn:hover { background: #ebebf0; }
+
+.st-notif-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff3b81;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  line-height: 1;
+}
+
+
+/* =========================================================
+   SWIPE TOP BAR — icon buttons + badge
+   ========================================================= */
+.st-icon-btn {
+  position: relative;
+  width: 38px;
+  height: 38px;
+  border-radius: 50%;
+  background: #f4f4f8;
+  border: none;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #1a1a2e;
+  cursor: pointer;
+  font-size: 14px;
+  transition: background 0.15s ease;
+  font-family: inherit;
+}
+
+.st-icon-btn:hover { background: #ebebf0; }
+
+.st-notif-badge {
+  position: absolute;
+  top: -2px;
+  right: -2px;
+  min-width: 18px;
+  height: 18px;
+  padding: 0 5px;
+  border-radius: 999px;
+  background: #ff3b81;
+  color: #fff;
+  font-size: 10px;
+  font-weight: 800;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 2px solid #fff;
+  line-height: 1;
+}

@@ -1,8 +1,10 @@
 // =========================================================
 // MYNVORA — CATEGORIES
 // 26 categories including Hookups (Diamond-only).
-// Counts are live / dynamic.
+// Counts come from the real backend.
 // =========================================================
+
+import api from '../lib/api.js';
 
 export const CATEGORIES = [
   { id: 'coffee_date',     icon: '☕', name: 'Coffee Date' },
@@ -34,61 +36,28 @@ export const CATEGORIES = [
     id: 'hookups',
     icon: '🔥',
     name: 'Hookups',
-    diamondOnly: true      // <-- only visible to Diamond subscribers
-  }
+    diamondOnly: true,      // only visible to Diamond subscribers
+  },
 ];
 
 // ---------------------------------------------------------
-// Live counts (mock — real backend later)
+// Live counts — real backend
 // ---------------------------------------------------------
 export async function fetchCategoryCounts() {
-  await new Promise((r) => setTimeout(r, 600));
-
-  const counts = {};
-  CATEGORIES.forEach((c) => {
-    counts[c.id] = mockCount(c.id);
-  });
-  return counts;
-}
-
-function mockCount(id) {
-  const base = {
-    coffee_date: 144,
-    date_night: 334,
-    thrill_seekers: 602,
-    creatives: 791,
-    self_care: 248,
-    animal_parents: 21,
-    short_term: 126,
-    new_friends: 277,
-    photo_verified: 399,
-    wants_kids: 40,
-    child_free: 20,
-    travel: 212,
-    gamers: 242,
-    long_term: 678,
-    serious: 343,
-    binge: 307,
-    nature: 345,
-    free_tonight: 190,
-    pansexual: 0,
-    bisexual: 28,
-    gay: 7,
-    lesbian: 15,
-    queer: 6,
-    sporty: 213,
-    foodies: 676,
-    hookups: 42
-  }[id] || 0;
-
-  return base + Math.floor(Math.random() * 5);
+  try {
+    const { data } = await api.get('/explore/counts');
+    return data?.counts || {};
+  } catch (err) {
+    console.warn('fetchCategoryCounts failed:', err.message);
+    return {};
+  }
 }
 
 // ---------------------------------------------------------
 // Helpers
 // ---------------------------------------------------------
 export function formatCount(n) {
-  if (n === 0) return null;
+  if (n === 0 || n == null) return null;
   if (n < 1000) return `${n}`;
   if (n < 10000) return `${(n / 1000).toFixed(1)}k`;
   if (n < 1000000) return `${Math.floor(n / 1000)}k`;

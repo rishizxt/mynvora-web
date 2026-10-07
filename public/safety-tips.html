@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Mynvora — Safety Tips</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" />
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { font-family: 'Inter', -apple-system, BlinkMacSystemFont, sans-serif;
+       background: #0a0a12; color: #e6e6f0; line-height: 1.65; overflow-x: hidden; }
+.app-banner { position: sticky; top: 0; z-index: 100; background: #14141f;
+              border-bottom: 1px solid rgba(255,255,255,0.06);
+              padding: 10px 20px; display: flex; align-items: center;
+              justify-content: space-between; gap: 12px; }
+.app-banner-text { color: #b7b7c7; font-size: 13px; font-weight: 500;
+                   display: flex; align-items: center; gap: 8px; }
+.app-banner-btn { background: linear-gradient(135deg, #ff2d78, #9b3dff);
+                  color: #fff; padding: 7px 18px; border-radius: 999px;
+                  font-size: 12px; font-weight: 700; text-decoration: none; }
+.hero { position: relative; padding: 72px 24px 56px; text-align: center;
+        background: #0a0a12; overflow: hidden; }
+.hero::before { content: ''; position: absolute; inset: 0;
+                background-image: radial-gradient(circle at 50% 0%, rgba(0,200,255,0.15) 0%, transparent 55%),
+                                  radial-gradient(circle at 20% 40%, rgba(155,61,255,0.12) 0%, transparent 50%),
+                                  radial-gradient(circle at 80% 40%, rgba(0,200,255,0.10) 0%, transparent 50%);
+                pointer-events: none; }
+.hero-inner { position: relative; z-index: 1; max-width: 780px; margin: 0 auto; }
+.hero-brand { font-size: 34px; font-weight: 900; letter-spacing: 8px;
+              background: linear-gradient(135deg, #00c8ff 0%, #7dd3fc 50%, #9b3dff 100%);
+              -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+              background-clip: text; margin-bottom: 6px; display: inline-block; }
+.hero-brand-sub { display: block; font-size: 11px; font-weight: 600;
+                  letter-spacing: 6px; text-transform: uppercase;
+                  color: #6b6b80; margin-bottom: 40px; }
+.hero h1 { font-size: 42px; font-weight: 900; color: #fff;
+           letter-spacing: -1px; line-height: 1.1; margin-bottom: 18px; }
+.hero p { font-size: 16px; color: #a8a8be; max-width: 620px;
+          margin: 0 auto; line-height: 1.7; }
+.wrap { max-width: 840px; margin: 0 auto; padding: 40px 24px 60px; }
+.section-head { font-size: 12px; font-weight: 700; letter-spacing: 4px;
+                text-transform: uppercase; color: #6b6b80; margin: 48px 0 20px; }
+h2 { font-size: 22px; font-weight: 800; color: #fff; margin: 40px 0 12px;
+     letter-spacing: -0.3px; }
+h3 { font-size: 18px; font-weight: 700; color: #fff; margin: 24px 0 10px; }
+p, li { font-size: 15px; color: #b7b7c7; }
+ul, ol { padding-left: 22px; margin-bottom: 16px; }
+li { margin-bottom: 6px; }
+a { color: #00c8ff; text-decoration: none; }
+a:hover { text-decoration: underline; }
+table { width: 100%; border-collapse: collapse; margin: 16px 0 24px;
+        background: rgba(255,255,255,0.02); border-radius: 10px; overflow: hidden; }
+th, td { padding: 12px 14px; text-align: left; font-size: 14px;
+         border-bottom: 1px solid rgba(255,255,255,0.06); vertical-align: top; }
+th { background: rgba(0,200,255,0.08); color: #fff; font-weight: 600;
+     font-size: 13px; text-transform: uppercase; letter-spacing: 0.5px; }
+.rule { display: flex; gap: 20px; padding: 26px 0;
+        border-bottom: 1px solid rgba(255,255,255,0.05); }
+.rule:last-of-type { border-bottom: none; }
+.rule-num { flex-shrink: 0; width: 48px; height: 48px; border-radius: 14px;
+            background: linear-gradient(135deg, rgba(0,200,255,0.12), rgba(155,61,255,0.12));
+            border: 1px solid rgba(0,200,255,0.22); display: flex;
+            align-items: center; justify-content: center; font-size: 18px;
+            font-weight: 900; color: #00c8ff; }
+.rule-body h3 { font-size: 19px; font-weight: 800; color: #fff;
+                margin-bottom: 8px; letter-spacing: -0.3px; }
+.rule-body ul { list-style: none; padding: 0; margin-top: 8px; }
+.rule-body ul li { position: relative; padding-left: 18px;
+                   font-size: 14px; color: #a8a8be; margin-bottom: 5px; }
+.rule-body ul li::before { content: ''; position: absolute; left: 0; top: 9px;
+                           width: 6px; height: 6px; border-radius: 50%;
+                           background: #00c8ff; }
+.india-badge { display: inline-flex; align-items: center; gap: 5px;
+               background: rgba(255,153,51,0.12);
+               border: 1px solid rgba(255,153,51,0.3);
+               color: #ff9933; padding: 2px 9px; border-radius: 999px;
+               font-size: 10px; font-weight: 700; letter-spacing: 0.5px;
+               text-transform: uppercase; vertical-align: middle; margin-left: 6px; }
+.callout { background: rgba(0,200,255,0.06);
+           border-left: 3px solid #00c8ff; padding: 14px 18px;
+           margin: 20px 0; border-radius: 6px; }
+.callout.warn { background: rgba(255,80,80,0.06); border-left-color: #ff7a7a; }
+.callout p { margin: 0; font-size: 14px; }
+.impact { background: rgba(255,255,255,0.02);
+          border: 1px solid rgba(255,255,255,0.06);
+          border-radius: 18px; padding: 28px; margin-top: 40px; }
+.impact h3 { font-size: 20px; color: #fff; margin-bottom: 10px; font-weight: 800; }
+.impact-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+               gap: 12px; margin-top: 16px; }
+.stage { background: rgba(255,255,255,0.03);
+         border: 1px solid rgba(255,255,255,0.07); border-radius: 12px; padding: 14px; }
+.stage-label { font-size: 10px; text-transform: uppercase; letter-spacing: 1.5px;
+               color: #00c8ff; font-weight: 700; margin-bottom: 5px; }
+.stage p { font-size: 12.5px; color: #a8a8be; margin: 0; }
+.helpline-num { font-size: 20px; color: #ff9933; font-weight: 800; letter-spacing: 1px;
+                display: block; margin-top: 4px; }
+.download-block { margin-top: 72px;
+                  background: linear-gradient(135deg, #0a1a20 0%, #0f0a1f 100%);
+                  border-top: 1px solid rgba(255,255,255,0.06);
+                  padding: 60px 24px 70px; position: relative; overflow: hidden; }
+.download-block::before { content: ''; position: absolute; right: -80px; bottom: -80px;
+                          width: 380px; height: 380px;
+                          background: radial-gradient(circle, rgba(0,200,255,0.25) 0%, transparent 70%);
+                          border-radius: 50%; pointer-events: none; }
+.download-inner { max-width: 840px; margin: 0 auto; display: flex;
+                  align-items: center; justify-content: space-between;
+                  gap: 32px; position: relative; z-index: 1; flex-wrap: wrap; }
+.download-text h3 { font-size: 36px; font-weight: 900; color: #fff;
+                    letter-spacing: -0.8px; margin-bottom: 14px; line-height: 1.15; }
+.download-text p { font-size: 15px; color: #a8a8be; margin-bottom: 22px; }
+.download-btn { display: inline-flex; align-items: center; gap: 10px;
+                background: linear-gradient(135deg, #00c8ff, #9b3dff);
+                color: #fff; padding: 14px 30px; border-radius: 999px;
+                text-decoration: none; font-weight: 800; font-size: 14px;
+                box-shadow: 0 10px 40px rgba(0,200,255,0.35); }
+.download-mark { font-size: 74px; font-weight: 900; letter-spacing: 10px;
+                 background: linear-gradient(135deg, #00c8ff 0%, #9b3dff 100%);
+                 -webkit-background-clip: text; -webkit-text-fill-color: transparent;
+                 background-clip: text; text-align: center; flex-shrink: 0;
+                 line-height: 1; opacity: 0.9; }
+.footer { text-align: center; padding: 40px 24px; background: #0a0a12;
+          color: #6b6b80; font-size: 13px; }
+.socials { display: flex; justify-content: center; gap: 12px; margin-bottom: 22px; }
+.socials a { width: 42px; height: 42px; border-radius: 50%;
+             background: rgba(255,255,255,0.05); display: flex;
+             align-items: center; justify-content: center;
+             color: #b7b7c7; text-decoration: none; font-size: 16px;
+             transition: all 0.2s; }
+.socials a:hover { background: linear-gradient(135deg, #00c8ff, #9b3dff); color: #fff; }
+.footer-links { margin-bottom: 14px; }
+.footer-links a { color: #8b8b9e; text-decoration: none; margin: 0 10px; font-size: 13px; }
+.footer-links a:hover { color: #00c8ff; }
+.footer-copy { color: #4d4d5c; font-size: 12px; margin-top: 18px; }
+@media (max-width: 640px) {
+  .hero h1 { font-size: 30px; } .hero-brand { font-size: 26px; letter-spacing: 6px; }
+  .download-text h3 { font-size: 26px; }
+  .download-mark { font-size: 48px; letter-spacing: 6px; }
+  .download-inner { flex-direction: column; text-align: center; }
+}
+</style>
+</head>
+<body>
+
+<div class="app-banner">
+  <div class="app-banner-text"><i class="fa-solid fa-shield-halved"></i><span>Stay safe — get Mynvora</span></div>
+  <a href="#download" class="app-banner-btn">Get Mynvora</a>
+</div>
+
+<div class="hero"><div class="hero-inner">
+  <div class="hero-brand">MYNVORA</div>
+  <span class="hero-brand-sub">Safety Tips</span>
+  <h1>Your safety comes first. Always.</h1>
+  <p>Dating online should feel exciting — not risky. These are the practical steps we recommend, the tools we built to protect you, and the helplines to turn to if something goes wrong.</p>
+</div></div>
+
+<div class="wrap">
+
+  <div class="section-head">Safety tools built into Mynvora</div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-camera" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Photo Verification</h3>
+      <p>Verified users get a blue checkmark on their profile. Look for it before you match. Verification uses a live selfie that we compare against your profile photos — no filters, no fake accounts.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-shield-halved" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>AI Photo Moderation</h3>
+      <p>Every photo you upload is scanned for nudity, violence, and prohibited content by Sightengine before it goes live. This happens automatically — usually within seconds.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-user-slash" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Block &amp; Report</h3>
+      <p>Block anyone, any time, from any screen — their profile, your match list, or mid-conversation. Blocked users cannot see you or contact you. Reports are confidential and reviewed by a human.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-location-dot" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Approximate Location Only</h3>
+      <p>We show nearby people, but never your exact GPS coordinates. Distances are rounded and displayed as approximations (e.g., "5 km away"). You can disable location in Settings.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-eye-slash" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Incognito Browsing</h3>
+      <p>Available on Diamond. Your profile is only visible to people you've already liked. Nobody else sees you in their discovery feed.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-user-check" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Mutual Match Only</h3>
+      <p>No one can message you unless you've both liked each other first. This means zero unsolicited messages from strangers.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Meeting in person — best practices</div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-video" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Video call before you meet</h3>
+      <p>A 5-minute video call confirms they're the person in their photos. It's the single most effective way to avoid catfishing.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-mug-hot" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Public place, daytime, your own transport</h3>
+      <p>First dates should be somewhere you know — a café, restaurant, park. Go there yourself and leave yourself. Don't get in their car and don't share a ride home.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-user-group" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Tell a friend where you'll be</h3>
+      <p>Share their name, a screenshot of their profile, the venue, and a check-in time. If you don't check in, your friend knows to act.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-wine-glass" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Watch your drink</h3>
+      <p>Never leave your drink unattended. If you feel unusually drowsy or unwell, call a friend or emergency services immediately.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-money-bill-transfer" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Never send money</h3>
+      <p>No matter the story — emergency, hospital bill, customs hold, crypto investment — if someone you met online asks for money, it's a scam. Report them.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-id-card" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Don't share Aadhaar, PAN, or bank details</h3>
+      <p>No genuine date needs your Aadhaar number. These are the same data points scammers use to open fake accounts in your name.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-hand" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Trust your gut</h3>
+      <p>If something feels off — the story doesn't add up, they push for your address, they rush intimacy — leave. You don't owe anyone politeness at the cost of your safety.</p>
+    </div>
+  </div>
+
+  <div class="section-head">How to report someone</div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-user-slash" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Report from their profile</h3>
+      <ul>
+        <li>Open the person's profile</li>
+        <li>Tap the three-dot menu in the top-right corner</li>
+        <li>Tap <strong>Report</strong></li>
+        <li>Select the reason and add any details you're comfortable sharing</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-comment-dots" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Report from your match list or chat</h3>
+      <ul>
+        <li>Open the chat with the person you'd like to report</li>
+        <li>Tap the three-dot menu in the top-right corner of the chat</li>
+        <li>Tap <strong>Report</strong></li>
+        <li>Select the reason and add details</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-envelope" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Report by email</h3>
+      <p>If you can't report in-app, email us at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a> and include:</p>
+      <ul>
+        <li>The reason for your report</li>
+        <li>The exact name, age, bio, and photos on the profile (screenshots are best)</li>
+        <li>Any location, phone number, or email address you have for the person</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num"><i class="fa-solid fa-lock" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>What happens after you report</h3>
+      <ul>
+        <li>All reports are treated as confidential.</li>
+        <li>Our Trust &amp; Safety team reviews every report.</li>
+        <li>The reported user may receive a generic notification that their account was reviewed, but the reporter's identity is never disclosed.</li>
+        <li>Exceptions may be made in rare instances where required by law.</li>
+        <li>Submitting false or malicious reports can harm others and may result in enforcement against the reporter.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="section-head">India helplines</div>
+
+  <div class="impact">
+    <h3>If something goes wrong</h3>
+    <p style="margin-bottom:16px">Report to India's National Cyber Crime Portal at <a href="https://cybercrime.gov.in" target="_blank">cybercrime.gov.in</a>, or call any of these:</p>
+    <div class="impact-grid">
+      <div class="stage">
+        <div class="stage-label">Emergency</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">Police / Fire / Medical</p>
+        <span class="helpline-num">112</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Women in distress</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">Women's Helpline</p>
+        <span class="helpline-num">181</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Cybercrime</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">National Cyber Crime</p>
+        <span class="helpline-num">1930</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Children</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">Childline India</p>
+        <span class="helpline-num">1098</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Mental health</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">iCall</p>
+        <span class="helpline-num" style="font-size:16px">9152987821</span>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Anti-trafficking</div>
+        <p style="color:#fff;font-weight:600;font-size:13px">National Anti-Trafficking</p>
+        <span class="helpline-num" style="font-size:16px">1800-419-8588</span>
+      </div>
+    </div>
+    <p style="margin-top:20px;font-size:13px;color:#8b8b9e">Mynvora cooperates with Indian law enforcement on lawful requests and preserves records as required by IT Rules 2021.</p>
+  </div>
+
+  <div class="section-head">Red flags to watch for</div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They claim to be overseas</h3>
+      <p>Military, oil rig, doctor abroad — a classic romance-scam setup.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They rush to move off Mynvora</h3>
+      <p>WhatsApp, Telegram, Signal "because it's easier" — a sign they want the conversation off our radar.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They refuse video calls</h3>
+      <p>Or keep rescheduling them. Always a red flag.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They ask for Aadhaar, PAN, UPI, or OTP</h3>
+      <p>"To verify your identity." Genuine matches never ask.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They send crypto or forex links</h3>
+      <p>Investment scams targeting dating-app users are common. Report immediately.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>They ask for intimate photos, then threaten</h3>
+      <p>This is sextortion. Report to <a href="https://cybercrime.gov.in" target="_blank">cybercrime.gov.in</a> and to us at <a href="mailto:mynvora@gmail.com">mynvora@gmail.com</a>. Do not pay.</p>
+    </div>
+  </div>
+
+  <div class="rule">
+    <div class="rule-num" style="color:#ff5a8c"><i class="fa-solid fa-circle-exclamation" style="font-size:16px"></i></div>
+    <div class="rule-body">
+      <h3>Their photos look too polished</h3>
+      <p>Reverse-search them on Google Images. Catfish often use stolen photos.</p>
+    </div>
+  </div>
+
+  <div class="section-head">Enforcing our policies</div>
+
+  <div class="impact">
+    <h3>What we do when rules are broken</h3>
+    <p style="margin-bottom:16px">When we identify a violation of our Community Guidelines, our Trust &amp; Safety team takes action to address it. This may include:</p>
+    <div class="impact-grid">
+      <div class="stage">
+        <div class="stage-label">Warning</div>
+        <p>A warning that the behavior is not allowed. Multiple warnings can lead to suspension or ban.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Content Action</div>
+        <p>Removing the violating content or hiding it from others' view.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Verification</div>
+        <p>Requiring automated checkpoints like a captcha, photo, or age verification.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Suspension</div>
+        <p>Suspending a user's access to Mynvora for a period of time.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Ban</div>
+        <p>Banning a user's profile from Mynvora and/or other affiliated platforms.</p>
+      </div>
+      <div class="stage">
+        <div class="stage-label">Law Enforcement</div>
+        <p>In situations involving immediate danger, working with authorities. Child abuse material is reported to the relevant national agency and/or local law enforcement.</p>
+      </div>
+    </div>
+    <p style="margin-top:16px;font-size:13px;color:#8b8b9e">We don't believe all violations are the same and regularly evaluate whether the resulting action is appropriate for the behavior. We also work with Indian cybercrime authorities when a report involves a criminal offence.</p>
+  </div>
+
+</div>
+
+<div class="download-block" id="download">
+  <div class="download-inner">
+    <div class="download-text">
+      <h3>Looking for the app?</h3>
+      <p>Get Mynvora on Android. iOS coming soon.</p>
+      <a href="#" class="download-btn"><i class="fa-brands fa-google-play"></i> Download Mynvora</a>
+    </div>
+    <div class="download-mark">MYNVORA</div>
+  </div>
+</div>
+
+<div class="footer">
+  <div class="socials">
+    <a href="https://instagram.com/mynvora" target="_blank"><i class="fa-brands fa-instagram"></i></a>
+    <a href="https://twitter.com/mynvora" target="_blank"><i class="fa-brands fa-x-twitter"></i></a>
+    <a href="https://facebook.com/mynvora" target="_blank"><i class="fa-brands fa-facebook-f"></i></a>
+    <a href="https://youtube.com/@mynvora" target="_blank"><i class="fa-brands fa-youtube"></i></a>
+    <a href="mailto:mynvora@gmail.com"><i class="fa-solid fa-envelope"></i></a>
+  </div>
+  <div class="footer-links">
+    <a href="/privacy.html">Privacy</a>
+    <a href="/terms.html">Terms</a>
+    <a href="/cookie-policy.html">Cookies</a>
+    <a href="/community-guidelines.html">Guidelines</a>
+    <a href="/safety-tips.html">Safety</a>
+    <a href="/account-deletion.html">Delete Account</a>
+    <a href="/grievance.html">Grievance</a>
+  </div>
+  <div class="footer-copy">© 2026 Mynvora. All rights reserved.</div>
+</div>
+
+</body>
+</html>

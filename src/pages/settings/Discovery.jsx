@@ -1,37 +1,33 @@
 // =========================================================
 // MYNVORA — DISCOVERY SETTINGS
-// Age range · Distance · Global · Passport Mode
+// Age range · Distance · Gender · Verified · Global · Passport
 // =========================================================
 
 import { useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useSettingsStore } from '../../store/settingsStore.js';
+import { useFiltersStore } from '../../store/filtersStore.js';
 import Slider from '../../components/Slider.jsx';
 import ToggleRow from '../../components/ToggleRow.jsx';
-import { DISCOVERY_SETTINGS } from '../../data/profileOptions.js';
 
-// Common cities for passport mode
 const CITIES = [
-  'Mumbai, India',
-  'Delhi, India',
-  'Bangalore, India',
-  'Hyderabad, India',
-  'Chennai, India',
-  'Kolkata, India',
-  'Pune, India',
-  'Goa, India',
-  'Dubai, UAE',
-  'London, UK',
-  'New York, USA',
-  'Los Angeles, USA',
-  'Singapore',
-  'Tokyo, Japan',
-  'Bali, Indonesia'
+  'Mumbai, India','Delhi, India','Bangalore, India','Hyderabad, India',
+  'Chennai, India','Kolkata, India','Pune, India','Goa, India',
+  'Dubai, UAE','London, UK','New York, USA','Los Angeles, USA',
+  'Singapore','Tokyo, Japan','Bali, Indonesia',
+];
+
+const GENDERS = [
+  { id: 'all',       label: 'Everyone' },
+  { id: 'male',      label: 'Men' },
+  { id: 'female',    label: 'Women' },
+  { id: 'nonbinary', label: 'Non-binary' },
 ];
 
 export default function Discovery() {
   const navigate = useNavigate();
   const settings = useSettingsStore();
+  const filters = useFiltersStore();
 
   const [showCityPicker, setShowCityPicker] = useState(false);
   const [searchQuery, setSearchQuery] = useState('');
@@ -61,11 +57,9 @@ export default function Discovery() {
         </p>
         <div className="discovery-slider-card">
           <Slider
-            minValue={settings.ageMin}
-            maxValue={settings.ageMax}
-            onRangeChange={(min, max) =>
-              settings.setAgeRange(min, max)
-            }
+            minValue={filters.ageMin}
+            maxValue={filters.ageMax}
+            onRangeChange={(min, max) => filters.setAgeRange(min, max)}
             min={18}
             max={90}
             step={1}
@@ -82,8 +76,8 @@ export default function Discovery() {
         </p>
         <div className="discovery-slider-card">
           <Slider
-            value={settings.maxDistance}
-            onChange={(v) => settings.setDistance(v)}
+            value={filters.maxDistance}
+            onChange={(v) => filters.setDistance(v)}
             min={1}
             max={150}
             step={1}
@@ -92,10 +86,61 @@ export default function Discovery() {
         </div>
       </div>
 
+      {/* Gender */}
+      <div className="settings-section">
+        <div className="settings-section-title">Show me</div>
+        <div className="settings-card" style={{ padding: 12 }}>
+          <div style={{ display: 'flex', gap: 8, flexWrap: 'wrap' }}>
+            {GENDERS.map((g) => {
+              const active = filters.gender === g.id;
+              return (
+                <button
+                  key={g.id}
+                  type="button"
+                  onClick={() => filters.setGender(g.id)}
+                  style={{
+                    flex: '1 1 auto',
+                    minWidth: 90,
+                    padding: '10px 14px',
+                    borderRadius: 999,
+                    border: active
+                      ? '1.5px solid #4f8cff'
+                      : '1.5px solid rgba(255,255,255,0.12)',
+                    background: active
+                      ? 'rgba(79,140,255,0.15)'
+                      : 'rgba(255,255,255,0.03)',
+                    color: active ? '#4f8cff' : '#cfcfe0',
+                    fontWeight: 600,
+                    fontSize: 13,
+                    cursor: 'pointer',
+                  }}
+                >
+                  {g.label}
+                </button>
+              );
+            })}
+          </div>
+        </div>
+      </div>
+
+      {/* Verified only */}
+      <div className="settings-section">
+        <div className="settings-section-title">Trust</div>
+        <div className="settings-card">
+          <ToggleRow
+            icon="fa-circle-check"
+            iconColor="#22c55e"
+            label="Verified profiles only"
+            description="Only show people who passed selfie verification"
+            value={filters.verifiedOnly}
+            onChange={() => filters.toggleVerifiedOnly()}
+          />
+        </div>
+      </div>
+
       {/* Advanced */}
       <div className="settings-section">
         <div className="settings-section-title">Advanced</div>
-
         <div className="settings-card">
           <ToggleRow
             icon="fa-arrow-up-right-dots"
@@ -116,6 +161,27 @@ export default function Discovery() {
         </div>
       </div>
 
+      {/* Reset */}
+      <div className="settings-section">
+        <button
+          type="button"
+          onClick={() => filters.reset()}
+          style={{
+            width: '100%',
+            padding: '14px 16px',
+            borderRadius: 14,
+            border: '1px solid rgba(255,80,80,0.25)',
+            background: 'rgba(255,80,80,0.08)',
+            color: '#ff7a7a',
+            fontWeight: 600,
+            fontSize: 14,
+            cursor: 'pointer',
+          }}
+        >
+          Reset filters
+        </button>
+      </div>
+
       {/* Location */}
       <div className="settings-section">
         <div className="settings-section-title">Location</div>
@@ -132,9 +198,7 @@ export default function Discovery() {
               {isPassport ? 'Passport Mode' : 'Current location'}
             </div>
             <div className="location-current-value">
-              {isPassport
-                ? settings.passportCity
-                : settings.currentCity}
+              {isPassport ? settings.passportCity : settings.currentCity}
             </div>
           </div>
           {isPassport && (
@@ -166,13 +230,9 @@ export default function Discovery() {
 
       {/* City picker sheet */}
       {showCityPicker && (
-        <div
-          className="sheet-scrim"
-          onClick={() => setShowCityPicker(false)}
-        >
+        <div className="sheet-scrim" onClick={() => setShowCityPicker(false)}>
           <div className="sheet" onClick={(e) => e.stopPropagation()}>
             <div className="sheet-handle" />
-
             <div className="sheet-subhead">
               <button
                 className="sheet-back"

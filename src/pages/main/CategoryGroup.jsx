@@ -1,9 +1,10 @@
 // =========================================================
 // MYNVORA — CATEGORY GROUP
 // Real backend discovery. Special handling for Hookups.
+// Real filters from filtersStore are sent on every fetch.
 // =========================================================
 
-import { useState, useRef, useEffect } from 'react';
+import { useState, useRef, useEffect, useMemo } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import ProfileCard from '../../components/ProfileCard.jsx';
 import BottomNav from '../../components/BottomNav.jsx';
@@ -14,6 +15,7 @@ import { getCategoryById } from '../../data/categories.js';
 import { useSwipeLimit } from '../../features/swipe/useSwipeLimit.js';
 import { useHookupLimit } from '../../features/swipe/useHookupLimit.js';
 import { useUserStore } from '../../store/userStore.js';
+import { useFiltersStore } from '../../store/filtersStore.js';
 import api from '../../lib/api.js';
 
 const TAP_THRESHOLD = 5;
@@ -26,7 +28,7 @@ export default function CategoryGroup() {
   const category = getCategoryById(categoryId);
   const isHookups = categoryId === 'hookups';
 
-  const { verified, tier, fetchMe } = useUserStore();
+  const { verified } = useUserStore();
   const { isOut: swipeOut, consume: consumeSwipe, count, limit, isUnlimited } = useSwipeLimit();
 
   /* Hookups hook — real backend */
@@ -36,9 +38,25 @@ export default function CategoryGroup() {
     hasUnlimited: hookupUnlimited,
     used:       hookupUsed,
     limit:      hookupLimit,
-    remaining:  hookupRemaining,
     consume:    consumeHookup,
   } = useHookupLimit();
+
+  /* ── Filters (real, from filtersStore) ────────────── */
+  const ageMin       = useFiltersStore((s) => s.ageMin);
+  const ageMax       = useFiltersStore((s) => s.ageMax);
+  const maxDistance  = useFiltersStore((s) => s.maxDistance);
+  const verifiedOnly = useFiltersStore((s) => s.verifiedOnly);
+  const gender       = useFiltersStore((s) => s.gender);
+
+  const filterQuery = useMemo(() => {
+    const p = new URLSearchParams();
+    p.set('minAge', String(ageMin));
+    p.set('maxAge', String(ageMax));
+    p.set('maxDistance', String(maxDistance));
+    p.set('verified', String(verifiedOnly));
+    if (gender && gender !== 'all') p.set('gender', gender);
+    return p.toString();
+  }, [ageMin, ageMax, maxDistance, verifiedOnly, gender]);
 
   /* ── Deck from backend ───────────────────────────── */
   const [deck, setDeck] = useState([]);
@@ -56,18 +74,15 @@ export default function CategoryGroup() {
   const maxMoveRef = useRef(0);
   const profile = deck[idx];
 
-  /* ── Fetch deck ──────────────────────────────────── */
+  /* ── Fetch deck (refetches on category/filter change) ── */
   useEffect(() => {
     let cancelled = false;
     (async () => {
       setLoading(true);
       try {
-        await fetchMe().catch(() => null);
-
-        /* Hookups mode → only Diamond users */
         const url = isHookups
-          ? '/profile/discover?mode=hookups'
-          : `/profile/discover?category=${categoryId}`;
+          ? `/profile/discover?mode=hookups&${filterQuery}`
+          : `/profile/discover?category=${categoryId}&${filterQuery}`;
 
         const { data } = await api.get(url);
         if (cancelled) return;
@@ -82,7 +97,7 @@ export default function CategoryGroup() {
       }
     })();
     return () => { cancelled = true; };
-  }, [categoryId, isHookups, fetchMe]);
+  }, [categoryId, isHookups, filterQuery]);
 
   const advance = () => {
     setTimeout(() => {
@@ -256,7 +271,7 @@ export default function CategoryGroup() {
           <span>
             {isHookups
               ? 'Hookups only shows Diamond users. Buy Diamond to join the pool.'
-              : `Be the first to join ${category?.name || 'this category'}`}
+              : `Try widening your filters, or be the first to join ${category?.name || 'this category'}`}
           </span>
         </div>
         <BottomNav />
@@ -350,6 +365,9 @@ function normalizeUser(u) {
     age: u.age,
     verified: u.verified,
     online: false,
+    /* Real distance in km (null if unknown) */
+    distanceKm: u.distance_km != null ? Number(u.distance_km) : null,
+    /* Fallback string used if distanceKm is null */
     distance: u.city ? `Near ${u.city}` : 'Nearby',
     job: u.job || '',
     city: u.city || '',
